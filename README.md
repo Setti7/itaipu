@@ -92,11 +92,11 @@ arquivo.
 6. Reboot
 
 
-## Ver PDF com todos os tokens de usuários:
-Após a instalação do servidor, vá para http://seu-dominio.com/admin/ e faça login com as
-credenciais que você escolheu no processo de instalação. Nessa tela, no topo superior
-direito tem o link "ver token dos residentes" que permite baixar um pdf com todos os
-tokens dos residentes.
+## PDF com todos os tokens de usuários:
+
+Para ver a lista faça login no site com as credenciais de administrador e na home page 
+terá um botão "Tokens - PDF". O arquivo é gerado automáticamente em 
+`/var/www/html/itaipu/tokens.pdf`.
 
 Caso queira gerar uma nova lista de tokens use o comando:
 
