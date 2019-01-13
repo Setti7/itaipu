@@ -188,7 +188,7 @@ class NovoVisitante(forms.ModelForm):
         nomeres = self.nomeres
 
         if commit:
-            v = Visitante.objects.create(nome=nome, chacara=chacara, nomeres=nomeres, data=data)
+            v = Visitante.objects.create(nome=nome, chacara=chacara, nomeres=nomeres, data=data, agendado=True)
             v.save()
 
         return v

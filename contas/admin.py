@@ -73,7 +73,7 @@ class ResidenteAdmin(admin.ModelAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
     change_password_form = AdminPasswordChangeForm
-    list_display = ('nome', 'email', 'is_staff')
+    list_display = ('nome', 'email', 'token', 'is_staff')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     search_fields = ('email', 'nome', 'email')
     ordering = ['nome']

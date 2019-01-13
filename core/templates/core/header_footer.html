@@ -74,6 +74,14 @@
                     <a class="nav-link {% if 'autorizar-visitas' in request.path %}active{% endif %}"
                        href="{% url 'core:autorizar visitas' page=1 %}">Autorizar Visitas</a>
                 </li>
+
+                {% if user.is_staff %}
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" href="{% url 'admin:index' %}"><span
+                                class="octicon octicon-key"></span> Admin</a>
+                    </li>
+                {% endif %}
+
             </ul>
 
             <form class="form-inline my-2 my-md-0" method="post" action="{% url 'api:editar-telefone' %}"
