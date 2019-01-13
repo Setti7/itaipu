@@ -1,0 +1,89 @@
+{% extends 'core/header_footer.html' %}
+
+
+{% block title %}
+    <title>Parque Itaipu | Configurações da Conta</title>
+{% endblock %}
+
+
+
+{% block apresentacao %}
+
+    {% if messages %}
+        {% for message in messages %}
+
+            {% if message.tags == 'success' %}
+                <div class="alert alert-success text-center" role="alert">
+                    {{ message }}
+                </div>
+
+            {% else %}
+                <div class="alert alert-danger text-center" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+
+        {% endfor %}
+    {% endif %}
+
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+
+
+        <h1 class="display-5">Configurações da sua conta</h1>
+
+        <hr>
+    </div>
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+
+                <div class="col-md-6" id="autorizar-visitas">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal text-center">Alterar senha</h4>
+                        </div>
+
+                        <div class="card-body">
+                            <form action="{% url "core:configs" %}" method="post">
+
+                                {% csrf_token %}
+
+                                {% for i in change_password_form %}
+                                    {% if 'password1' in i.html_name %}
+                                        <hr>
+                                    {% endif %}
+
+                                    <div class="form-group">
+                                        <label for="{{ i.id_for_label }}">{{ i.label }}:</label>
+                                        <input type="{{ i.field.widget.input_type }}" class="form-control"
+                                               id="{{ i.id_for_label }}" placeholder="{{ i.label }}"
+                                               name="{{ i.html_name }}">
+
+                                        {% if i.errors %}
+                                            {% for error in i.errors %}
+                                                <span style="color: #dc3545">{{ error|safe }}</span>
+                                            {% endfor %}
+                                        {% endif %}
+
+                                    </div>
+                                {% endfor %}
+                                <button type="submit" role="button" class="btn btn-primary">Salvar</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <!-- [END] alterar email -->
+
+{% endblock %}
+
+
+

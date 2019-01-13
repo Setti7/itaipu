@@ -1,0 +1,34 @@
+server {
+    listen 80;
+    server_name ${DOMAIN} www.${DOMAIN};
+
+    location = /favicon.ico {
+        access_log off; log_not_found off;
+        alias /var/www/html/itaipu/static/favicon/favicon.ico;
+    }
+
+    location /static/ {
+        root /var/www/html/itaipu;
+    }
+
+    location = /robots.txt {
+        alias /var/www/html/itaipu/robots.txt;
+    }
+
+    location = /browserconfig.xml {
+        alias /var/www/html/itaipu/static/favicon/browserconfig.xml;
+    }
+
+    location = /android-chrome-192x192.png {
+        alias /var/www/html/itaipu/static/favicon/android-chrome-192x192.png;
+    }
+
+    location = /android-chrome-512x512.png {
+        alias /var/www/html/itaipu/static/favicon/android-chrome-512x512.png;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/run/gunicorn.sock;
+    }
+}

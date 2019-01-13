@@ -1,0 +1,48 @@
+{% extends 'contas/header.html' %}
+
+
+{% block title %}
+	<title>Itaipu | Confirmação da Conta</title>
+{% endblock %}
+
+{% load static %}
+
+{% block main %}
+	<div class="form-signin">
+		<img class="mb-4" src="{% static 'favicon/android-chrome-192x192.png' %}" alt="" width="72"
+			 height="72">
+
+		{% if validlink %}
+			<h1 class="h3 mb-3 font-weight-normal">Conta confirmada com sucesso!</h1>
+		{% else %}
+			<h1 class="h3 mb-3 font-weight-normal">Erro ao confirmar a conta.</h1>
+		{% endif %}
+
+		{% if validlink %}
+			<p>
+				O email da sua conta foi confirmado e agora você pode acessar nosso sistema normalmente, podendo
+				autorizar
+				visitas quando quiser.
+			</p>
+			<p>
+				Não se esqueça de atualizar o número de telefone da sua chácara.
+			</p>
+		{% else %}
+			<p>
+				Houve um erro ao confirmar seu email. Pode ser que sua conta já foi verificada, ou que o endereço
+				dessa página esteja errado.
+			</p>
+			<p>
+				Se sua conta não estava com o email confirmado, verifique se o link enviado a seu email está funcionando
+				corretamente. Caso o erro persista, envie um email para <a
+					href="mailto:{{ EMAIL_ADMIN }}">{{ EMAIL_ADMIN }}</a>
+			</p>
+		{% endif %}
+
+		<hr>
+
+		<a class="btn btn-lg btn-primary btn-block" href="{% url 'contas:login' %}">Acessar sua conta</a>
+		<p class="mt-5 mb-3 text-muted">&copy; 2018 - Parque Itaipu</p>
+
+	</div>
+{% endblock %}

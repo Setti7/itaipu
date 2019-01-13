@@ -1,0 +1,75 @@
+{% extends 'contas/header.html' %}
+
+{% load static %}
+
+{% block title %}
+    <title>Itaipu | Ativar Conta</title>
+{% endblock %}
+
+
+{% block main %}
+
+    <form class="form-signin" method="post" action="{% url 'contas:associar conta' %}">
+        {% include 'contas/cookie_banner.html' %}
+        {% csrf_token %}
+
+        <img class="mb-4" src="{% static 'favicon/android-chrome-192x192.png' %}" alt="" width="72"
+             height="72">
+        <h1 class="h3 mb-3 font-weight-normal">Associar email a conta</h1>
+        <p>Insira o código retirado na portaria para associar um email a sua conta e terminar seu registro.</p>
+
+        {% if form.errors %}
+            <p style="color: #dc3545;">
+                {% for err in form.non_field_errors %}
+                    {{ err }}<br>
+                {% endfor %}
+            </p>
+        {% endif %}
+
+        {% for field in form %}
+
+            <label for="{{ field.id_for_label }}" class="sr-only">{{ field.label }}</label>
+
+            <input name="{{ field.html_name }}"
+
+                    {% if field.value and 'password' not in field.html_name %}
+                   value="{{ field.value }}"
+                    {% endif %}
+
+                    {% if "token" in field.html_name %}
+                   class="form-control uppercase"
+                   maxlength="8"
+                    {% else %}
+                   class="form-control"
+                    {% endif %}
+
+                   type="{{ field.field.widget.input_type }}"
+                   id="{{ field.id_for_label }}"
+
+                   placeholder="{{ field.label }}"
+                   required autofocus>
+
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    <small style="color: #dc3545;">{{ error|safe }}</small>
+                {% endfor %}
+            {% endif %}
+
+            {% if 'token' in field.html_name %}
+                <hr>
+            {% endif %}
+
+        {% endfor %}
+
+        <div style="margin-top: 1.5rem">
+            <a class="text-center" href="{% url 'contas:login' %}">Já tem uma conta?</a>
+        </div>
+
+        <hr style="clear: both">
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit" value="submit">Associar email</button>
+        <input type="hidden" name="next" value="{{ next }}"/>
+        <p class="mt-5 mb-3 text-muted">&copy; 2018 - Parque Itaipu</p>
+
+    </form>
+{% endblock %}

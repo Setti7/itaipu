@@ -1,0 +1,41 @@
+{% extends 'contas/header.html' %}
+
+
+{% block title %}
+    <title>Parque Itaipu | Erro 403</title>
+{% endblock %}
+
+{% load static %}
+
+{% block main %}
+
+    <div class="form-signin" style="max-width: 400px">
+
+
+        <img class="mb-4" src="{% static 'favicon/android-chrome-192x192.png' %}" alt="" width="72"
+             height="72">
+        <h1 class="h3 mb-3 font-weight-normal" style="color: #dc3545;">Erro 403:<br>Acesso bloqueado</h1>
+        <hr>
+
+        <p class="lead">
+            Por algum motivo seu acesso foi bloqueado. Caso o erro persista, entre em contato com <a
+                href="mailto:{{ EMAIL_ADMIN }}">{{ EMAIL_ADMIN }}.</a>
+        </p>
+        <hr>
+
+        <p class="lead"> Tente ativar coookies e javascript no seu navegador.</p>
+        <a href="https://support.google.com/accounts/answer/61416?co=GENIE.Platform%3DDesktop&hl=pt-BR">Como ativar
+            cookies?</a><br>
+        <a href="https://www.enable-javascript.com/pt/">Como ativar javascript?</a>
+
+        <hr>
+
+        <a class="btn btn-lg btn-primary btn-block" href="{% url 'core:home' %}">
+            <span class='octicon octicon-chevron-left'></span> Voltar
+        </a>
+
+        <p class="mt-5 mb-3 text-muted">&copy; 2018 - Parque Itaipu</p>
+
+    </div>
+{% endblock %}
+

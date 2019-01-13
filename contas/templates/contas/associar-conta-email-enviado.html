@@ -1,0 +1,29 @@
+{% extends 'contas/header.html' %}
+
+
+{% block title %}
+	<title>Itaipu | Email Enviado</title>
+{% endblock %}
+
+{% load static %}
+
+{% block main %}
+	<div class="form-signin">
+		<img class="mb-4" src="{% static 'favicon/android-chrome-192x192.png' %}" alt="" width="72" height="72">
+		<h1 class="h3 mb-3 font-weight-normal">Email enviado!</h1>
+
+		<p>
+			Por favor confirme sua conta com o link enviado ao seu email.
+		</p>
+		<p>
+			Caso não tenha recebido o email, por favor verifique o email que você digitou e a sua caixa de "spam".
+		</p>
+
+		<hr>
+
+		<a class="btn btn-lg btn-primary btn-block" href="{% url 'contas:login' %}">Home</a>
+
+		<p class="mt-5 mb-3 text-muted">&copy; 2018 - Parque Itaipu</p>
+
+	</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'contas/header.html' %}
+
+
+{% block title %}
+    <title>Parque Itaipu | Erro 403</title>
+{% endblock %}
+
+{% load static %}
+
+{% block main %}
+
+    <div class="form-signin" style="max-width: 400px">
+
+
+        <img class="mb-4" src="{% static 'favicon/android-chrome-192x192.png' %}" alt="" width="72"
+             height="72">
+        <h1 class="h3 mb-3 font-weight-normal" style="color: #dc3545;">Erro 403:<br>Não foi possível acessar seus
+            cookies</h1>
+        <hr>
+        <p class="lead">Este site precisa utilizar cookies para funcionar corretamente.</p>
+
+        <p class="lead"> Vá até as configurações do seu navegador e habilite os cookies.</p>
+        <a href="https://support.google.com/accounts/answer/61416?co=GENIE.Platform%3DDesktop&hl=pt-BR">Precisa de
+            ajuda?</a>
+        <hr>
+
+        <a class="btn btn-lg btn-primary btn-block" href="{% url 'core:home' %}">
+            <span class='octicon octicon-chevron-left'></span> Voltar
+        </a>
+
+        <p class="mt-5 mb-3 text-muted">&copy; 2018 - Parque Itaipu</p>
+
+    </div>
+{% endblock %}

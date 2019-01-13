@@ -1,0 +1,18 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=itaipu-web
+Group=www-data
+WorkingDirectory=/var/www/html/itaipu
+ExecStart=/var/www/html/itaipu/venv/bin/gunicorn \
+          --log-file=- \
+          --workers 3 \
+          --bind unix:/run/gunicorn.sock \
+          itaipu.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+

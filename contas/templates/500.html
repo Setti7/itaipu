@@ -1,0 +1,33 @@
+{% extends 'contas/header.html' %}
+
+
+{% block title %}
+    <title>Parque Itaipu | Erro 500</title>
+{% endblock %}
+
+{% load static %}
+
+{% block main %}
+
+    <div class="form-signin" style="max-width: 400px">
+
+
+        <img class="mb-4" src="{% static 'favicon/android-chrome-192x192.png' %}" alt="" width="72"
+             height="72">
+        <h1 class="h3 mb-3 font-weight-normal" style="color: #dc3545;">Erro 500:<br>Erro interno do servidor</h1>
+        <hr>
+        <p class="lead">Algo de ruim aconteceu. Acho que você fez alguma coisa.</p>
+
+
+        <p class="lead"> Enquanto nós tentamos consertar esse erro, tente refazer o que você estava fazendo e
+            recarregar a página anterior.</p>
+        <hr >
+
+        <a class="btn btn-lg btn-primary btn-block" href="{% url 'core:home' %}">
+            <span class='octicon octicon-chevron-left'></span> Voltar
+        </a>
+
+        <p class="mt-5 mb-3 text-muted">&copy; 2018 - Parque Itaipu</p>
+
+    </div>
+{% endblock %}
