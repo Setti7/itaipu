@@ -3,7 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import JsonResponse
 
 from contas.forms import EditarVisitanteForm, EditarTelefoneForm
-from contas.models import Visitante, Movimento, Chacara, Residente
+from contas.models import Visitante, Movimento, Residente
 
 
 @login_required(redirect_field_name=None)

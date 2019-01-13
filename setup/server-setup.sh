@@ -125,6 +125,7 @@ echo -e "${b}Configurando Nginx${n}"
 cp itaipu /etc/nginx/sites-available/itaipu
 cp itaipu /etc/nginx/sites-enabled/itaipu
 cp fastcgi_params /etc/nginx/fastcgi_params
+systemctl enable nginx
 systemctl restart nginx
 check $?
 
