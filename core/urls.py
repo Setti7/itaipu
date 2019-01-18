@@ -12,5 +12,5 @@ urlpatterns = [
          name='autorizar visitas blacklist'),
     path('autorizar-visitas/novo-visitante', views.novo_visitante, name='novo visitante'),
 
-    path('<int:code>', views.error),
+    path('<str:code>/', views.error),
 ]

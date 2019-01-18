@@ -20,7 +20,13 @@ def home(request):
 
 
 def error(request, code):
-	return render(request, '%s.html' % code)
+	code_list = ['400', '403', '403_csrf', '404', '500']
+
+	if code in code_list:
+		return render(request, f'{code}.html')
+
+	else:
+		return Http404()
 
 
 @login_required(redirect_field_name=None)
