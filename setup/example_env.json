@@ -4,5 +4,5 @@
   "ALLOWED_HOSTS": ["seudominio.com", "www.seudominio.com", "*"],
   "db_name": "itaipu",
   "db_user": "itaipu-web",
-  "db_password": "123qwe",
+  "db_password": "123qwe"
 }
