@@ -200,17 +200,17 @@ sentry_sdk.init(
 # https://app.sendgrid.com/
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-DOMAIN = get_envvar('DOMAIN')
-EMAIL_ADMIN = "Administrador admin@%s" % DOMAIN
-EMAIL_ADMIN_SHOW = "admin@%s" % DOMAIN
 
-DEFAULT_FROM_EMAIL = 'Não Responda não-responda@%s' % DOMAIN
-ACCOUNT_RECOVERY_EMAIL = 'Redefinir Senha redefinir-senha@%s' % DOMAIN
-REGISTRATION_EMAIL = 'Bem-Vindo novos-moradores@%s' % DOMAIN
+EMAIL_ADMIN = 'correioparqueitaipu@gmail.com'
+EMAIL_ADMIN_SHOW = 'correioparqueitaipu@gmail.com'
 
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = get_envvar('SENDGRID_API_KEY')
+DEFAULT_FROM_EMAIL = 'correioparqueitaipu@gmail.com'
+ACCOUNT_RECOVERY_EMAIL = 'correioparqueitaipu@gmail.com'
+REGISTRATION_EMAIL = 'correioparqueitaipu@gmail.com'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'correioparqueitaipu@gmail.com'
+EMAIL_HOST_PASSWORD = 'gy761qaA'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 

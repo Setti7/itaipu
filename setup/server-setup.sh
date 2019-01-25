@@ -57,7 +57,7 @@ check $?
 
 # Configurando usuário
 echo -e "${b}Configurando usuário gerenciador do site (insira a senha root do mysql)${n}"
-mysql -u root -p -D itaipu -e "GRANT ALL PRIVILEGES ON itaipu.* TO 'itaipu-web'@'localhost' IDENTIFIED BY 'escolha uma senha';"
+mysql -u root -p -D itaipu -e "GRANT ALL PRIVILEGES ON itaipu.* TO 'itaipu-web'@'localhost' IDENTIFIED BY '123qwe';"
 check $?
 
 
