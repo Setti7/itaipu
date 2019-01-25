@@ -2,7 +2,6 @@
   "SECRET_KEY": "dzz7^!xz@$ly(*%y#e)&%-sf*^-i6245@)33mr_cn@6i0ynl8i",
   "DEBUG": false,
   "ALLOWED_HOSTS": ["seudominio.com", "www.seudominio.com", "124.167.733.362"],
-  "DOMAIN": "seudominio.com",
   "db_name": "itaipu",
   "db_user": "itaipu-web",
   "db_password": "escolha uma senha",
