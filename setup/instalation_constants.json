@@ -1,0 +1,12 @@
+{
+  "debug": false,
+  "allowed_hosts": [
+    "asdasdas",
+    "sa",
+    "dasasdfas"
+  ],
+  "db_name": "asfasf",
+  "db_user": "asfas",
+  "db_password": "fasf",
+  "secret_key": "2v%*n5duil99kji^uaac8)zn@5b2v857fd*(z6q18r1d%#_560"
+}

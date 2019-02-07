@@ -1,8 +1,8 @@
 {
-  "SECRET_KEY": "dzz7^!xz@$ly(*%y#e)&%-sf*^-i6245@)33mr_cn@6i0ynl8i",
-  "DEBUG": false,
-  "ALLOWED_HOSTS": ["seudominio.com", "www.seudominio.com", "*"],
+  "debug": true,
+  "allowed_hosts": ["127.0.0.1", "192.168.1.104", "dedeco.me", "*"],
   "db_name": "itaipu",
   "db_user": "itaipu-web",
-  "db_password": "123qwe"
+  "db_password": "escolha uma senha",
+  "secret_key": "p9fjl5*9743k9v^vc_4&!%*0@mj&a1xsdsq7-40z^a_6kda(q4"
 }
