@@ -12,7 +12,7 @@ from django.shortcuts import render, redirect, Http404
 
 from contas.forms import EditarVisitanteForm, NovoVisitante
 from contas.models import Visitante
-
+from django.views import View
 
 @login_required(redirect_field_name=None)
 def home(request):
@@ -181,3 +181,9 @@ def token_pdf(request):
 		return FileResponse(open(os.path.join(settings.BASE_DIR, 'tokens.pdf'), 'rb'), content_type='application/pdf')
 	except FileNotFoundError:
 		raise Http404()
+
+
+class EditarChacara(View):
+
+	def get(self, request):
+		return render(request, 'core/editar-chacara.html')

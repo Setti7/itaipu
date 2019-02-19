@@ -5,34 +5,7 @@
 
     {% load static %}
 
-    <!-- Social Media-->
-    <meta property="og:image:height" content="1109">
-    <meta property="og:image:width" content="739">
-    <meta property="og:description" content="Itaipu é um website para moradores do condomínio poderem gerenciar quem
-    pode visitá-los, com data marcada.">
-    <meta property="og:title" content="Parque Itaipu">
-    <meta property="og:url" content="{% url 'core:home' %}">
-    <meta property="og:locale" content="pt_BR"/>
-    <meta property="og:image" content="{% static 'favicon/og-image.jpg' %}">
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary">
-
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static "favicon/apple-touch-icon.png" %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static "favicon/favicon-32x32.png" %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static "favicon/favicon-16x16.png" %}">
-    <link rel="manifest" href="{% static "favicon/site.webmanifest" %}">
-    <link rel="mask-icon" href="{% static "favicon/safari-pinned-tab.svg" %}" color="#4a19be">
-    <meta name="apple-mobile-web-app-title" content="Parque Itaipu">
-    <meta name="application-name" content="Parque Itaipu">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="André Niero Setti">
-    <meta name="description" content="Itaipu é um website para moradores do condomínio poderem gerenciar quem
-    pode visitá-los, com data marcada.">
+		{% include 'includes/meta.html' %}
 
     {% block title %}
     {% endblock %}
@@ -73,6 +46,11 @@
                 <li class="nav-item">
                     <a class="nav-link {% if 'autorizar-visitas' in request.path %}active{% endif %}"
                        href="{% url 'core:autorizar visitas' page=1 %}">Autorizar Visitas</a>
+                </li>
+
+								<li class="nav-item">
+                    <a class="nav-link {% if 'editar-chacara' in request.path %}active{% endif %}"
+                       href="{% url 'core:editar-chacara' %}">Editar Chácara</a>
                 </li>
 
             </ul>
@@ -140,22 +118,7 @@
     </div>
 </noscript>
 
-{% if messages %}
-    {% for message in messages %}
-
-        {% if message.tags == 'success' %}
-            <div class="alert alert-success text-center" role="alert">
-                {{ message }}
-            </div>
-
-        {% else %}
-            <div class="alert alert-danger text-center" role="alert">
-                {{ message }}
-            </div>
-        {% endif %}
-
-    {% endfor %}
-{% endif %}
+	{% include 'includes/messages.html' %}
 
 
 {% block apresentacao %}

@@ -9,22 +9,7 @@
 
 {% block apresentacao %}
 
-    {% if messages %}
-        {% for message in messages %}
-
-            {% if message.tags == 'success' %}
-                <div class="alert alert-success text-center" role="alert">
-                    {{ message }}
-                </div>
-
-            {% else %}
-                <div class="alert alert-danger text-center" role="alert">
-                    {{ message }}
-                </div>
-            {% endif %}
-
-        {% endfor %}
-    {% endif %}
+		{% include 'includes/messages.html' %}
 
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 
@@ -38,7 +23,7 @@
         <div class="container">
             <div class="row justify-content-center">
 
-                <div class="col-md-6" id="autorizar-visitas">
+                <div class="col-md-6">
                     <div class="card mb-4 shadow-sm">
                         <div class="card-header">
                             <h4 class="my-0 font-weight-normal text-center">Alterar senha</h4>

@@ -20,15 +20,7 @@
         </div>
 
 
-        {% if messages %}
-            {% for message in messages %}
-                {% if message.tags == 'success' %}
-                    <div class="alert alert-success" role="alert">
-                        {{ message }}
-                    </div>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
+				{% include 'includes/messages.html' %}
 
 
         {% for field in form %}

@@ -44,6 +44,24 @@
                 </div>
                 <!-- Fim do primeiro card-->
 
+
+							<!-- Segundo card (Editar Chácara)-->
+                <div class="col-md-6" id="editar-chacara">
+                    <div class="card mb-4 shadow-sm card-outline">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">Editar Chácara</h4>
+                        </div>
+
+                        <div class="card-body">
+                            <p>
+                                Edite os moradores e o telefone da sua chácara.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Fim do segundo card-->
+
             </div>
         </div>
     </div>
@@ -57,8 +75,8 @@
             $(location).attr('href', '{% url "core:autorizar visitas" page=1%}')
         });
 
-        $('#historico-de-acesso').click(function () {
-            $(location).attr('href', '#')
+        $('#editar-chacara').click(function () {
+            $(location).attr('href', '{% url "core:editar-chacara" %}')
         });
 
     </script>
