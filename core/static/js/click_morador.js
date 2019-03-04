@@ -3,7 +3,6 @@ function enable_edit (id) {
   // definindo variáveis
   var btn_salvar = $('#edit-' + id)
   var btn_cancelar = $('#del-' + id)
-  var btn_blacklist = $('#blacklist-' + id)
 
   // alterando data-action dos botoes sendo:
   // [edit] -> [salvar] e [delete] -> [cancelar]
@@ -27,19 +26,14 @@ function enable_edit (id) {
   $(btn_cancelar).removeClass('btn-outline-secondary')
   $(btn_cancelar).addClass('btn-danger')
 
-  // botao de proibir é exibido
-  $(btn_blacklist).removeClass('hidden')
-
 }
 
 function disable_edit (id, reload) {
   if (typeof (reload) === 'undefined') reload = true
 
   // definindo variavéis
-  var form = $('#form-' + id)
   var btn_edit = $('#edit-' + id)
   var btn_del = $('#del-' + id)
-  var btn_blacklist = $('#blacklist-' + id)
   var field_group = $('#field-group-' + id)
   var field_group_childrens = ' #field-group-' + id + ' > *'
 
@@ -76,8 +70,6 @@ function disable_edit (id, reload) {
   $(btn_del).removeClass('btn-danger')
   $(btn_del).addClass('btn-outline-secondary')
 
-  // botao de proibir é escondido
-  $(btn_blacklist).addClass('hidden')
 }
 
 function error_alert (error) {
@@ -99,8 +91,8 @@ function save_edit (id, form) {
     onkeyup: false,
 
     messages: {
-      nome: 'Digite o nome do visitante',
-      data: 'Escolha uma data',
+      nome: 'Digite o nome do residente',
+      email: 'Digite o email do residente',
     },
 
     errorPlacement: function (error, element) {
@@ -158,14 +150,7 @@ function save_edit (id, form) {
       success: function (data) {
         if (!data.success) {
           error_alert(
-            'Houve um erro inesperado ao editar esse visitante. Tente novamente.')
-        } else {
-
-          // se entrada for alterada com sucesso, atualizar o label "autorizado por" com o nome do usuário
-          var auth_label = $(`small[data-id=${id}]`)
-          var user = auth_label.attr('data-name')
-
-          auth_label.html('Autorizado por:<br>' + user)
+            'Houve um erro inesperado ao editar esse residente. Tente novamente.')
         }
       },
     })
@@ -173,7 +158,7 @@ function save_edit (id, form) {
   }
 }
 
-function remove_entry (id, form, action) {
+function remove_entry (id, form) {
 
   // preparando animação
   var animation = '#animation-' + id
@@ -191,17 +176,8 @@ function remove_entry (id, form, action) {
   var data = form.serialize()
   disable_edit(id)
 
-  // blacklist ou delete
-  if (action === 'blacklist') {
-    data += '&blacklist=true'
-    type = 'POST'
-
-  } else if (action === 'delete') {
-    type = 'DELETE'
-  }
-
   $.ajax({
-    type: type,
+    type: 'DELETE',
     url: url,
     data: data,
     dataType: 'json',
@@ -213,13 +189,7 @@ function remove_entry (id, form, action) {
         $(col_id).fadeOut()
       } else {
 
-        if (action === 'delete') {
-          alert(data.msg)
-
-        } else if (action === 'blacklist') {
-          alert('Houve um erro ao proibir esse visitante.')
-        }
-
+        alert(data.msg)
         $(animation).addClass('hidden')
       }
     },
@@ -250,10 +220,6 @@ $('.js-btn').click(function () {
 
   var form = $('#form-' + id)
 
-  form.submit(function (e) {
-  e.preventDefault()
-})
-
   if (action === 'edit') {
     enable_edit(id)
 
@@ -263,10 +229,9 @@ $('.js-btn').click(function () {
   } else if (action === 'salvar') {
     save_edit(id, form)
 
-  } else if (action === 'blacklist') {
-    remove_entry(id, form, action)
-
   } else if (action === 'delete') {
-    remove_entry(id, form, action)
+    remove_entry(id, form)
   }
 })
+
+

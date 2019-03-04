@@ -1,0 +1,19 @@
+{% if request.user.chacara is not None %}
+	<form class="form-inline my-2 my-md-0" method="post" action="{% url 'api:editar-telefone' %}"
+				id="editar-telefone-form" style="display: inline-block">
+		{% csrf_token %}
+
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Telefone:</span>
+			</div>
+			<input name="{{ form.telefone.html_name }}" placeholder="XX XXXX XXXX"
+						 type="text" value="{{ request.user.chacara.telefone }}"
+						 class="form-control capitalize input-telefone" id="editar-telefone"
+						 aria-describedby="basic-addon1" autocomplete="off" autocorrect="off" autocapitalize="off"
+						 spellcheck="false">
+		</div>
+		<div class="lds-dual-ring ml-2 hidden" id="animation-telefone"></div>
+
+	</form>
+{% endif %}

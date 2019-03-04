@@ -9,10 +9,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import FileResponse
 from django.shortcuts import render, redirect, Http404
+from django.utils.decorators import method_decorator
 
-from contas.forms import EditarVisitanteForm, NovoVisitante
-from contas.models import Visitante
+from contas.forms import EditarVisitanteForm, NovoVisitante, EditarResidenteForm
+from contas.models import Visitante, Residente
 from django.views import View
+from contas.forms import EditarTelefoneForm
 
 @login_required(redirect_field_name=None)
 def home(request):
@@ -183,7 +185,77 @@ def token_pdf(request):
 		raise Http404()
 
 
+@method_decorator(login_required, name='dispatch')
 class EditarChacara(View):
 
-	def get(self, request):
-		return render(request, 'core/editar-chacara.html')
+	def get(self, request, page):
+		formset = []
+
+		if page <= 0:
+			return redirect("core:editar chacara", page=1)
+
+		# Elements per page
+		epp = 36
+
+		cut_start = (page - 1) * epp
+		cut_end = (page - 1) * epp + epp
+
+		query = Residente.objects.filter(chacara=request.user.chacara).order_by('nome')
+
+		last_page = ceil(len(query) / epp)
+		empty = True if last_page == 0 else False
+
+		if page > last_page and not empty:
+			return redirect("core:editar chacara", page=last_page)
+
+		if page > 3:
+			pages_start = page - 3
+			pages_end = page + 2
+
+		else:
+			pages_start = 0
+			pages_end = 5
+
+		list_of_pages = [i + 1 for i in range(pages_start, pages_end)]
+
+		for c, r in enumerate(query[cut_start:cut_end]):
+			form = EditarResidenteForm(initial={
+				'nome': r.nome,
+				'status': r.status,
+				'form_id': r.pk,
+				'token': r.token,
+				'email': r.email
+			})
+
+			formset.append(form)
+
+		# Telefone form
+		form = EditarTelefoneForm(initial={'telefone': request.user.chacara.telefone})
+
+		return render(request, 'core/editar_chacara.html',
+					  {'formset': formset,
+					   'page': page,
+					   'previous_page': page - 1 if page > 0 else 0,
+					   'next_page': page + 1,
+					   'list_of_pages': list_of_pages,
+					   'last_page': last_page,
+					   'empty': empty,
+					   'form': form,
+					   })
+
+# class NovoResidente(View):
+#
+# 	def get(self, request):
+# 		form = NovoResidenteForm(request.user)
+# 		return render(request, 'core/novo_residente.html', {'form': form})
+#
+# 	def post(self, request):
+# 		form = NovoResidenteForm(request.user, request.POST)
+#
+# 		if form.is_valid():
+# 			form.save()
+# 			messages.success(request, 'Residente adicionado com sucesso!')
+#
+# 			return redirect('core:novo residente')
+#
+# 		return render(request, 'core/novo_residente.html', {'form': form})

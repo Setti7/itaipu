@@ -198,3 +198,14 @@ class EditarTelefoneForm(forms.ModelForm):
     class Meta:
         model = Chacara
         fields = ['telefone']
+
+
+
+class EditarResidenteForm(forms.ModelForm):
+
+    # Hidden
+    form_id = forms.IntegerField(min_value=0, max_value=999999, widget=forms.HiddenInput)
+
+    class Meta:
+        model = Residente
+        fields = ['nome', 'status', 'token', 'email', 'form_id']

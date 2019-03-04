@@ -1,0 +1,61 @@
+{% extends 'core/header_footer.html' %}
+
+{% load static %}
+
+{% block title %}
+	<title>Parque Itaipu | Configurações da Conta</title>
+{% endblock %}
+
+
+
+{% block apresentacao %}
+
+	{% include 'includes/messages.html' %}
+
+	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+		<h1 class="display-4">Configurações da sua chácara</h1>
+		<hr>
+		<p class="lead">
+			lorem ipsum.
+		</p>
+
+		{% include 'includes/telefone-form.html' %}
+
+		<a class="btn btn-outline-dark" href="{% url 'core:novo residente' %}">Adicionar Residente</a>
+
+		<hr>
+	</div>
+
+	<div class="album py-5 bg-light">
+	<div class="container">
+		<div class="container">
+			<div class="row">
+
+				{% include 'includes/morador-formset.html' %}
+
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.4.4/cleave.min.js"
+					integrity="sha256-bdsE7OfVf7KHL+kLZ4qWLjQs+/gBQ8e2MX02zqTRN+A=" crossorigin="anonymous"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.4.4/addons/cleave-phone.br.js"
+					integrity="sha256-DEA1Q6NZggWk6/kMPFeFjn/6ORug/S6WItnDu0P2eaQ=" crossorigin="anonymous"></script>
+
+	<script>
+    new Cleave('.input-telefone', {
+      phone: true,
+      phoneRegionCode: 'BR',
+    })
+	</script>
+
+	<script src="{% static "js/click_morador.js" %}" type="text/javascript"></script>
+	<script src="{% static "js/editar-telefone.js" %}" type="text/javascript"></script>
+{% endblock %}
+

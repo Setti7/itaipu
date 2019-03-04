@@ -1,0 +1,98 @@
+<!-- Card start -->
+{% for form in formset %}
+	<div class="col-md-4" id="col-{{ form.form_id.value }}">
+		<div class="card mb-4 shadow-sm">
+			<form method="post" action="{% url 'api:editar-morador' %}"
+						id="form-{{ form.form_id.value }}">
+				{% csrf_token %}
+
+				<div class="card-body form-card residente-form-js"
+						 id="card-{{ form.form_id.value }}">
+
+					<!-- Form Start -->
+					<div id="field-group-{{ form.form_id.value }}">
+						{% for field in form %}
+							{% if 'token' not in field.html_name and 'status' not in field.html_name %}
+								<!-- Field start -->
+
+								{% if not field.is_hidden %}
+									<span class="text-muted" style="margin-bottom: 0"
+												data-name="{{ field.html_name }}"
+												data-id="{{ form.form_id.value }}">
+                                                            {{ field.label }} </span>
+									<span style="color: #dc3545"> *</span>
+								{% endif %}
+
+
+								<input name="{{ field.html_name }}"
+											 placeholder="{{ field.label }}"
+												{% if field.value and not field.errors in field.html_name %}
+											 value="{{ field.value }}"
+												{% endif %}
+
+												{% if 'email' in field.html_name %}
+											 type="{{ field.field.widget.input_type }}"
+											 class="form-control lowercase last"
+
+												{% else %}
+											 type="{{ field.field.widget.input_type }}"
+											 class="form-control capitalize"
+
+												{% endif %}
+											 disabled required
+											 data-id="{{ form.form_id.value }}">
+
+								<!-- Field end -->
+							{% endif %}
+						{% endfor %}
+
+						<small class="text-muted" style="float: left;">
+						Função:
+							{% if form.status.value == 'P' %}
+								Proprietário
+							{% elif form.status.value == 'C' %}
+								Caseiro
+							{% else %}
+								Funcionário
+							{% endif %}
+							<br>
+							Token: {{ form.token.value|upper }}
+						</small>
+
+						<div class="lds-dual-ring mr-2 hidden" style="float: right"
+								 id="animation-{{ form.form_id.value }}"></div>
+
+						<div style="clear: both;"></div>
+
+					</div>
+					<!-- Form end -->
+
+					<div class="d-flex justify-content-between align-items-center">
+
+						<div class="btn-group">
+							<button type="button" name='edit' id="edit-{{ form.form_id.value }}"
+											class="btn btn-sm btn-outline-secondary js-btn"
+											data-id="{{ form.form_id.value }}"
+											data-action="edit">
+								<span class='octicon octicon-pencil'></span> Editar
+							</button>
+
+							<button type="button" name='del' id="del-{{ form.form_id.value }}"
+											class="btn btn-sm btn-outline-secondary js-btn"
+											data-id="{{ form.form_id.value }}"
+											data-action="delete">
+								<span class='octicon octicon-trashcan'></span> Excluir
+							</button>
+
+						</div>
+
+					</div>
+
+
+				</div>
+			</form>
+
+		</div>
+	</div>
+{% endfor %}
+</div>

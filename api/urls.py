@@ -4,6 +4,7 @@ from . import views
 
 app_name = 'api'
 urlpatterns = [
-    path("editar-visitante", views.editar_visitante, name='editar-visitante'),
-    path("editar-telefone", views.editar_telefone, name='editar-telefone'),
+    path("editar-visitante/", views.EditarVisitante.as_view(), name='editar-visitante'),
+    path("editar-telefone/", views.EditarTelefone.as_view(), name='editar-telefone'),
+    path("editar-morador/", views.EditarMorador.as_view(), name='editar-morador'),
 ]

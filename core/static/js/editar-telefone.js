@@ -1,67 +1,60 @@
-var last_value;
-var tel_input = $("#editar-telefone");
-var animation = $("#animation-telefone");
-
+var last_value
+var tel_input = $('#editar-telefone')
+var animation = $('#animation-telefone')
 
 tel_input.on('click touchstart mouseover', function () {
 
-	last_value = this.value;
-	var allowed = $(this).attr("data-allow");
+  last_value = this.value
 
-	$(this).click(function () {
-		$(this).select();
-	});
+  $(this).click(function () {
+    $(this).select()
+  })
 
-	if (allowed === 'allow') {
-		$(this).removeAttr("disabled");
-
-		// rodando animação
-		animation.removeClass("hidden");
-	}
-});
-
+  // rodando animação
+  animation.removeClass('hidden')
+})
 
 tel_input.mouseout(function () {
 
-	var tel_form = $('#editar-telefone-form');
-	var tel_url = tel_form.attr('action');
-	var tel_data = tel_form.serialize();
-	var input = $(this);
+  var tel_form = $('#editar-telefone-form')
+  var tel_url = tel_form.attr('action')
+  var tel_data = tel_form.serialize()
+  var input = $(this)
 
-	// Validação
-	if (this.value.length <= 7 || this.value.length > 13) {
-		input.val(last_value);
+  // Validação
+  if (this.value.length <= 7 || this.value.length > 13) {
+    input.val(last_value)
 
-	} else {
+  } else {
 
-		if (last_value === this.value) {
+    if (last_value === this.value) {
 
-		} else {
+    } else {
 
-			$.ajax({
-				type: "POST",
-				url: tel_url,
-				data: tel_data,
-				dataType: 'json',
-				success: function (data) {
+      $.ajax({
+        type: 'POST',
+        url: tel_url,
+        data: tel_data,
+        dataType: 'json',
+        success: function (data) {
 
-					if (!data.success) {
-						input.val(last_value);
-						input.addClass("text-danger");
+          if (!data.success) {
+            input.val(last_value)
+            input.addClass('text-danger')
+            alert(data.msg)
 
-					} else if (data.success) {
-						input.removeClass("text-danger");
-					}
-				}
-			});
-		}
-	}
+          } else if (data.success) {
+            input.removeClass('text-danger')
+          }
+        },
+      })
+    }
+  }
 
-	// parando animação e desabilitando input
-	$(this).attr("disabled", true);
-	animation.addClass("hidden");
-});
+  // parando animação
+  animation.addClass('hidden')
+})
 
 $('#editar-telefone-form').submit(function (e) {
-	e.preventDefault();
-});
+  e.preventDefault()
+})
