@@ -74,6 +74,24 @@ footer p {
 	border-color: #343a40;
 }
 
+.card-hover {
+
+	opacity: 0.8;
+	background-color: #edeeef;
+
+	-webkit-transition: opacity 0.15s, background-color 0.15s; /* Safari and Chrome */
+	-moz-transition: opacity 0.15s, background-color 0.15s; /* Firefox 4 */
+	-o-transition: opacity 0.15s, background-color 0.15s; /* Opera */
+	transition: opacity 0.15s, background-color 0.15s;
+}
+
+
+.card-hover:hover {
+	opacity: 1.0;
+	background-color: #fff;
+}
+
+
 /* Loading animation */
 .lds-dual-ring {
 	margin-right: 20%;

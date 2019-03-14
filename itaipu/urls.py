@@ -24,8 +24,11 @@ admin.site.index_title = 'Itaipu Admin'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('contas/', include('contas.urls', namespace='contas')),
+    path('avisos/', include('avisos.urls')),
     path('api/', include('api.urls', namespace='api')),
     path('', include('core.urls', namespace='core')),
+    path('tinymce/', include('tinymce.urls')),
+
 ]
 
 if settings.DEBUG:

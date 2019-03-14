@@ -1,15 +1,21 @@
+from datetime import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.utils import IntegrityError
+from django.http import QueryDict
 from django.http.response import JsonResponse
 from django.utils.decorators import method_decorator
+from django.utils.timezone import utc
 from django.views import View
 
+from api.exceptions import NotAuthorized
+from avisos.models import Aviso, AvisoViewer
 from contas.forms import EditarTelefoneForm
 from contas.forms import EditarVisitanteForm, EditarResidenteForm
 from contas.models import Movimento
 from contas.models import Visitante, Residente, Chacara
-from api.exceptions import NotAuthorized
-from django.http import QueryDict
+
 
 @method_decorator(login_required(redirect_field_name=None), name='dispatch')
 class EditarTelefone(View):
@@ -125,7 +131,7 @@ class EditarVisitante(View):
             v, v_chac = self._get_db_models(request)
 
         except ObjectDoesNotExist:
-            data['success'] = False
+            data['success'] = True
             data['msg'] = 'Visitante já foi deletado.'
             raise NotAuthorized(data)
 
@@ -156,7 +162,13 @@ class EditarVisitante(View):
         data = QueryDict(request.body)
 
         v = Visitante.objects.get(pk=data.get('form_id'))
-        v_chac = v.chacara
+
+        try:
+            v_chac = v.chacara
+        except Chacara.DoesNotExist:
+            error = {'success': True, 'msg': 'Visitante não estava relacionado com uma chácara, mas foi deletado.'}
+            v.delete()
+            raise NotAuthorized(error)
 
         return v, v_chac
 
@@ -211,3 +223,33 @@ class EditarVisitante(View):
             v.delete()
 
         return JsonResponse(data)
+
+
+@method_decorator(login_required(redirect_field_name=None), name='dispatch')
+class MarqueAvisoComoLido(View):
+
+    def post(self, request):
+
+        data = {}
+
+        try:
+            aviso = Aviso.objects.get(pk=request.POST.get('aviso_id'))
+
+        except ObjectDoesNotExist:
+            data['success'] = False
+            data['msg'] = 'Esse aviso não existe.'
+            return JsonResponse(data)
+
+        try:
+            AvisoViewer.objects.create(
+                aviso=aviso,
+                residente=request.user,
+                data_visualizado=datetime.utcnow().replace(tzinfo=utc)
+            )
+
+        except IntegrityError:
+            data['success'] = False
+            data['msg'] = 'Esse aviso já foi lido.'
+            return JsonResponse(data)
+
+        return JsonResponse({'success': True})

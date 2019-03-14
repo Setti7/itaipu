@@ -1,45 +1,17 @@
+from uuid import uuid4
+
 from django.contrib.auth.models import AbstractBaseUser
-from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.core.mail import send_mail
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from uuid import uuid4
+
+from .managers import ResidenteManager
 
 
 def token_generator():
     return uuid4().hex[:8]
-
-
-class ResidenteManager(BaseUserManager):
-    """
-    A custom user manager to deal with emails as unique identifiers for auth
-    instead of usernames. The default that's used is "UserManager"
-    """
-
-    def create_user(self, email, password, **extra_fields):
-        """
-        Creates and saves a User with the given email and password.
-        """
-        if not email:
-            raise ValueError('The email must be set')
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)
-        user.save()
-        return user
-
-    def create_superuser(self, email, password, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_active', True)
-
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
-        return self.create_user(email, password, **extra_fields)
 
 
 class Chacara(models.Model):
@@ -99,7 +71,8 @@ class Visitante(models.Model):
 
 class Movimento(models.Model):
     id = models.AutoField(db_column='mov_ID', primary_key=True)
-    visitante = models.ForeignKey(Visitante, verbose_name='visitante', on_delete=models.PROTECT, db_column='vis_ID')  # vis_ID
+    visitante = models.ForeignKey(Visitante, verbose_name='visitante', on_delete=models.PROTECT,
+                                  db_column='vis_ID')  # vis_ID
     data_entrada = models.DateTimeField()
     data_saida = models.DateTimeField()
     aberto = models.IntegerField()
@@ -111,7 +84,6 @@ class Movimento(models.Model):
 
     class Meta:
         db_table = 'Movimento'
-
 
 
 class Residente(AbstractBaseUser, PermissionsMixin):

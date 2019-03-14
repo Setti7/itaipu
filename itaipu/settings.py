@@ -57,9 +57,11 @@ ALLOWED_HOSTS = get_envvar('ALLOWED_HOSTS')
 INSTALLED_APPS = [
 
     'debug_toolbar',
+    'tinymce',
 
     'contas.apps.ContasConfig',
     'core.apps.CoreConfig',
+    'avisos.apps.AvisosConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -162,6 +164,38 @@ LOGGING = {
 
 INTERNAL_IPS = ['127.0.0.1']
 
+# TinyMCE configuration
+# from: https://pythonprogramming.net/admin-apps-django-tutorial/
+
+TINYMCE_DEFAULT_CONFIG = {
+    'height': 360,
+    'width': 1120,
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 20,
+    'selector': 'textarea',
+    'theme': 'modern',
+    'plugins': '''
+            textcolor save link image media preview codesample contextmenu
+            table code lists fullscreen  insertdatetime  nonbreaking
+            contextmenu directionality searchreplace wordcount visualblocks
+            visualchars code fullscreen autolink lists  charmap print  hr
+            anchor pagebreak
+            ''',
+    'toolbar1': '''
+            fullscreen preview bold italic underline | fontselect,
+            fontsizeselect  | forecolor backcolor | alignleft alignright |
+            aligncenter alignjustify | indent outdent | bullist numlist table |
+            | link image media | codesample |
+            ''',
+    'toolbar2': '''
+            visualblocks visualchars |
+            charmap hr pagebreak nonbreaking anchor |  code |
+            ''',
+    'contextmenu': 'formats | link image',
+    'menubar': True,
+    'statusbar': True,
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -186,7 +220,6 @@ LOGIN_REDIRECT_URL = '/'
 
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
 
-
 # Sentry config
 # https://sentry.io/
 
@@ -194,7 +227,6 @@ sentry_sdk.init(
     dsn="https://2893784632054e68a96704f984638966@sentry.io/1354523",
     integrations=[DjangoIntegration()]
 )
-
 
 # Email settings
 # https://app.sendgrid.com/
@@ -213,7 +245,6 @@ EMAIL_HOST_USER = 'correioparqueitaipu@gmail.com'
 EMAIL_HOST_PASSWORD = 'gy761qaA'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-
 
 ## Descomente caso esteja com SSL
 

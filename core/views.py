@@ -14,7 +14,7 @@ from django.views import View
 
 from contas.forms import EditarTelefoneForm, NovoResidenteForm
 from contas.forms import EditarVisitanteForm, NovoVisitanteForm, EditarResidenteForm
-from contas.models import Visitante, Residente
+from contas.models import Visitante, Residente, Chacara
 
 
 @login_required(redirect_field_name=None)
@@ -213,7 +213,12 @@ class EditarChacaraView(View):
             formset.append(form)
 
         # Telefone form
-        form = EditarTelefoneForm(initial={'telefone': request.user.chacara.telefone})
+        try:
+            form = EditarTelefoneForm(initial={'telefone': request.user.chacara.telefone})
+
+        # handling error if residente is not bounded to a chacara
+        except AttributeError:
+            form = EditarTelefoneForm()
 
         return render(request, 'core/editar_chacara.html',
                       {'formset': formset,
