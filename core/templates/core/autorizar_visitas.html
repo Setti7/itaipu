@@ -2,249 +2,249 @@
 
 
 {% block title %}
-    <title>Parque Itaipu | Autorizar visitas</title>
+	<title>Parque Itaipu | Autorizar visitas</title>
 {% endblock %}
 
 {% load static %}
 
 {% block apresentacao %}
 
-    <div class="alert alert-danger text-center hidden" id="error-alert" role="alert"></div>
+	<div class="alert text-center hidden" role="alert" id="alert-banner"></div>
 
-    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">Autorizar Visitas</h1>
-        <hr>
-        <p class="lead">
-            Genrecie quem pode te visitar.
-        </p>
+	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+		<h1 class="display-4">Autorizar Visitas</h1>
+		<hr>
+		<p class="lead">
+			Genrecie quem pode te visitar.
+		</p>
 
-        <a class="btn btn-outline-dark" href="{% url 'core:novo visitante' %}">Adicionar visitante</a>
+		<a class="btn btn-outline-dark" href="{% url 'core:novo visitante' %}">Adicionar visitante</a>
 
 
-        {% if 'blacklist' in request.path %}
-            <a class="btn btn-outline-primary" href="{% url 'core:autorizar visitas' page=1 %}">
-                Ver visitantes autorizados
-            </a>
+		{% if 'blacklist' in request.path %}
+			<a class="btn btn-outline-primary" href="{% url 'core:autorizar visitas' page=1 %}">
+				Ver visitantes autorizados
+			</a>
 
-        {% else %}
-            <a class="btn btn-outline-danger" href="{% url 'core:autorizar visitas blacklist' page=1 %}">
-                Ver visitantes proibidos
-            </a>
-        {% endif %}
+		{% else %}
+			<a class="btn btn-outline-danger" href="{% url 'core:autorizar visitas blacklist' page=1 %}">
+				Ver visitantes proibidos
+			</a>
+		{% endif %}
 
-        <hr>
-    </div>
+		<hr>
+	</div>
 
-    <div class="album py-5 bg-light">
-        <div class="container">
-            {% if formset %}
+	<div class="album py-5 bg-light">
+		<div class="container">
+			{% if formset %}
 
-                <div class="row">
+				<div class="row">
 
-                    <!-- Card start -->
-                    {% for form in formset %}
-                        <div class="col-md-4" id="col-{{ form.form_id.value }}">
-                            <div class="card mb-4 shadow-sm">
-                                <form method="post" action="{% url 'api:editar-visitante' %}"
-                                      id="form-{{ form.form_id.value }}">
-                                    {% csrf_token %}
+					<!-- Card start -->
+					{% for form in formset %}
+						<div class="col-md-4" id="col-{{ form.form_id.value }}">
+							<div class="card mb-4 shadow-sm">
+								<form method="post" action="{% url 'api:editar-visitante' %}"
+											id="form-{{ form.form_id.value }}">
+									{% csrf_token %}
 
-                                    <div class="card-body form-card visitante-form-js"
-                                         id="card-{{ form.form_id.value }}">
+									<div class="card-body form-card visitante-form-js"
+											 id="card-{{ form.form_id.value }}">
 
-                                        <!-- Form Start -->
-                                        <div id="field-group-{{ form.form_id.value }}">
-                                            {% for field in form %}
-                                                {% if 'nomeres' not in field.html_name %}
-                                                    <!-- Field start -->
+										<!-- Form Start -->
+										<div id="field-group-{{ form.form_id.value }}">
+											{% for field in form %}
+												{% if 'nomeres' not in field.html_name %}
+													<!-- Field start -->
 
-                                                    {% if not field.is_hidden %}
-                                                        <span class="text-muted" style="margin-bottom: 0"
-                                                              data-name="{{ field.html_name }}"
-                                                              data-id="{{ form.form_id.value }}">
+													{% if not field.is_hidden %}
+														<span class="text-muted" style="margin-bottom: 0"
+																	data-name="{{ field.html_name }}"
+																	data-id="{{ form.form_id.value }}">
                                                             {{ field.label }} </span>
-                                                        <span style="color: #dc3545"> *</span>
-                                                    {% endif %}
+														<span style="color: #dc3545"> *</span>
+													{% endif %}
 
 
-                                                    <input name="{{ field.html_name }}"
-                                                           placeholder="{{ field.label }}"
-                                                            {% if field.value and not field.errors and not 'data' in field.html_name %}
-                                                           value="{{ field.value }}"
-                                                            {% endif %}
+													<input name="{{ field.html_name }}"
+																 placeholder="{{ field.label }}"
+																	{% if field.value and not field.errors and not 'data' in field.html_name %}
+																 value="{{ field.value }}"
+																	{% endif %}
 
-                                                            {% if 'data' in field.html_name %}
-                                                           class="form-control last"
-                                                           type="date"
-                                                           value="{{ field.value|date:"Y-m-d" }}"
+																	{% if 'data' in field.html_name %}
+																 class="form-control last"
+																 type="date"
+																 value="{{ field.value|date:"Y-m-d" }}"
 
-                                                            {% elif 'nome' in field.html_name %}
-                                                           type="{{ field.field.widget.input_type }}"
-                                                           class="form-control capitalize"
+																	{% elif 'nome' in field.html_name %}
+																 type="{{ field.field.widget.input_type }}"
+																 class="form-control capitalize"
 
-                                                            {% else %}
-                                                           type="{{ field.field.widget.input_type }}"
-                                                           class="form-control capitalize"
+																	{% else %}
+																 type="{{ field.field.widget.input_type }}"
+																 class="form-control capitalize"
 
-                                                            {% endif %}
-                                                           disabled required
-                                                           data-id="{{ form.form_id.value }}">
+																	{% endif %}
+																 disabled required
+																 data-id="{{ form.form_id.value }}">
 
-                                                    <!-- Field end -->
-                                                {% endif %}
-                                            {% endfor %}
-                                            <small class="text-muted" style="float: left;" data-id="{{ form.form_id.value }}"
-                                                   data-name="{{ request.user }}">
-                                                Autorizado por:<br>{{ form.nomeres.value }}
-                                            </small>
+													<!-- Field end -->
+												{% endif %}
+											{% endfor %}
+											<small class="text-muted" style="float: left;" data-id="{{ form.form_id.value }}"
+														 data-name="{{ request.user }}">
+												Autorizado por:<br>{{ form.nomeres.value }}
+											</small>
 
-                                            <div class="lds-dual-ring mr-2 hidden" style="float: right"
-                                                 id="animation-{{ form.form_id.value }}"></div>
+											<div class="lds-dual-ring mr-2 hidden" style="float: right"
+													 id="animation-{{ form.form_id.value }}"></div>
 
-                                            <div style="clear: both;"></div>
+											<div style="clear: both;"></div>
 
-                                        </div>
-                                        <!-- Form end -->
+										</div>
+										<!-- Form end -->
 
-                                        {% if 'blacklist' in request.path %}
+										{% if 'blacklist' in request.path %}
 
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="btn-group">
-                                                    <button type="button" name='del' id="del-{{ form.form_id.value }}"
-                                                            class="btn btn-sm btn-danger js-btn"
-                                                            data-id="{{ form.form_id.value }}"
-                                                            data-action="delete">
-                                                        <span class='octicon octicon-trashcan'></span> Excluir
-                                                    </button>
-                                                </div>
+											<div class="d-flex justify-content-between align-items-center">
+												<div class="btn-group">
+													<button type="button" name='del' id="del-{{ form.form_id.value }}"
+																	class="btn btn-sm btn-danger js-btn"
+																	data-id="{{ form.form_id.value }}"
+																	data-action="delete">
+														<span class='octicon octicon-trashcan'></span> Excluir
+													</button>
+												</div>
 
-                                            </div>
+											</div>
 
-                                        {% else %}
+										{% else %}
 
-                                            <div class="d-flex justify-content-between align-items-center">
+											<div class="d-flex justify-content-between align-items-center">
 
-                                                <div class="btn-group">
-                                                    <button type="button" name='edit' id="edit-{{ form.form_id.value }}"
-                                                            class="btn btn-sm btn-outline-secondary js-btn"
-                                                            data-id="{{ form.form_id.value }}"
-                                                            data-action="edit">
-                                                        <span class='octicon octicon-pencil'></span> Editar
-                                                    </button>
+												<div class="btn-group">
+													<button type="button" name='edit' id="edit-{{ form.form_id.value }}"
+																	class="btn btn-sm btn-outline-secondary js-btn"
+																	data-id="{{ form.form_id.value }}"
+																	data-action="edit">
+														<span class='octicon octicon-pencil'></span> Editar
+													</button>
 
-                                                    <button type="button" name='del' id="del-{{ form.form_id.value }}"
-                                                            class="btn btn-sm btn-outline-secondary js-btn"
-                                                            data-id="{{ form.form_id.value }}"
-                                                            data-action="delete">
-                                                        <span class='octicon octicon-trashcan'></span> Excluir
-                                                    </button>
+													<button type="button" name='del' id="del-{{ form.form_id.value }}"
+																	class="btn btn-sm btn-outline-secondary js-btn"
+																	data-id="{{ form.form_id.value }}"
+																	data-action="delete">
+														<span class='octicon octicon-trashcan'></span> Excluir
+													</button>
 
-                                                </div>
+												</div>
 
-                                                <button type="button" name='blacklist'
-                                                        id="blacklist-{{ form.form_id.value }}"
-                                                        class="btn btn-sm btn-warning ml-1 hidden js-btn"
-                                                        data-id="{{ form.form_id.value }}"
-                                                        data-action="blacklist">
-                                                    <span class='octicon octicon-stop'></span> Proibir
-                                                </button>
+												<button type="button" name='blacklist'
+																id="blacklist-{{ form.form_id.value }}"
+																class="btn btn-sm btn-warning ml-1 hidden js-btn"
+																data-id="{{ form.form_id.value }}"
+																data-action="blacklist">
+													<span class='octicon octicon-stop'></span> Proibir
+												</button>
 
-                                            </div>
+											</div>
 
-                                        {% endif %}
+										{% endif %}
 
-                                    </div>
-                                </form>
+									</div>
+								</form>
 
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="row justify-content-center text-center">
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% else %}
+				<div class="row justify-content-center text-center">
 
-                    {% if 'blacklist' in request.path %}
+					{% if 'blacklist' in request.path %}
 
-                        <div class="col-md-6" id="autorizar-visitas">
-                            <div class="card mb-4 shadow-sm">
+						<div class="col-md-6" id="autorizar-visitas">
+							<div class="card mb-4 shadow-sm">
 
-                                <div class="card-body">
-                                    <p>Você não marcou nenhuma visita como proibida. Para proibir alguém, clique em
-                                        "editar" no
-                                        visitante e então em "proibir".</p>
-                                </div>
+								<div class="card-body">
+									<p>Você não marcou nenhuma visita como proibida. Para proibir alguém, clique em
+										"editar" no
+										visitante e então em "proibir".</p>
+								</div>
 
-                            </div>
-                        </div>
+							</div>
+						</div>
 
-                    {% else %}
+					{% else %}
 
-                        <div class="col-md-6" id="autorizar-visitas">
-                            <div class="card mb-4 shadow-sm">
+						<div class="col-md-6" id="autorizar-visitas">
+							<div class="card mb-4 shadow-sm">
 
-                                <div class="card-body">
-                                    <p>Você não tem nenhuma visita salva no sistema. Adicione uma nova com o botão
-                                        acima!</p>
+								<div class="card-body">
+									<p>Você não tem nenhuma visita salva no sistema. Adicione uma nova com o botão
+										acima!</p>
 
-                                </div>
-                            </div>
-                        </div>
+								</div>
+							</div>
+						</div>
 
-                    {% endif %}
+					{% endif %}
 
-                </div>
-            {% endif %}
+				</div>
+			{% endif %}
 
-        </div>
-    </div>
+		</div>
+	</div>
 
 {% endblock %}
 
 
 {% block footer %}
 
-    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+	<footer class="pt-4 my-md-5 pt-md-5 border-top">
 
-        <nav aria-label="Navegação da página">
-            <ul class="pagination justify-content-center">
-                <li {% if page > 1 %}class="page-item"{% else %}class="page-item disabled"{% endif %}>
-                    <a class="page-link" href="{% url 'core:autorizar visitas' page=previous_page %}"
-                       aria-label="Página Anterior">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Página Anterior</span>
-                    </a>
-                </li>
+		<nav aria-label="Navegação da página">
+			<ul class="pagination justify-content-center">
+				<li {% if page > 1 %}class="page-item"{% else %}class="page-item disabled"{% endif %}>
+					<a class="page-link" href="{% url 'core:autorizar visitas' page=previous_page %}"
+						 aria-label="Página Anterior">
+						<span aria-hidden="true">&laquo;</span>
+						<span class="sr-only">Página Anterior</span>
+					</a>
+				</li>
 
-                {% for for_page in list_of_pages %}
+				{% for for_page in list_of_pages %}
 
-                    <li {% if page == for_page or for_page > last_page %}class="page-item disabled"
-                        {% else %}class="page-item"{% endif %}>
-                        <a class="page-link" href="{% url 'core:autorizar visitas' page=for_page %}">
-                            {{ for_page }}
-                        </a>
-                    </li>
-                {% endfor %}
+					<li {% if page == for_page or for_page > last_page %}class="page-item disabled"
+							{% else %}class="page-item"{% endif %}>
+						<a class="page-link" href="{% url 'core:autorizar visitas' page=for_page %}">
+							{{ for_page }}
+						</a>
+					</li>
+				{% endfor %}
 
-                <li {% if page < last_page %}class="page-item"{% else %}class="page-item disabled"{% endif %}>
-                    <a class="page-link" href="{% url 'core:autorizar visitas' page=next_page %}"
-                       aria-label="Próxima Página">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Próxima Página</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+				<li {% if page < last_page %}class="page-item"{% else %}class="page-item disabled"{% endif %}>
+					<a class="page-link" href="{% url 'core:autorizar visitas' page=next_page %}"
+						 aria-label="Próxima Página">
+						<span aria-hidden="true">&raquo;</span>
+						<span class="sr-only">Próxima Página</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
 
-        <p class="text-muted text-center">&copy; 2018 - Parque Itaipu</p>
+		<p class="text-muted text-center">&copy; 2018 - Parque Itaipu</p>
 
-    </footer>
+	</footer>
 
 
 {% endblock footer %}
 
 
 {% block scripts %}
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-    <script src="{% static "js/click.js" %}" type="text/javascript"></script>
+	<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+	<script src="{% static "js/click.js" %}" type="text/javascript"></script>
 {% endblock %}
 

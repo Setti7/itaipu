@@ -1,5 +1,5 @@
 {% if request.user.chacara is not None %}
-	<form class="form-inline my-2 my-md-0" method="post" action="{% url 'api:editar-telefone' %}"
+	<form class="my-2 my-md-0" method="post" action="{% url 'api:editar-telefone' %}"
 				id="editar-telefone-form" style="display: inline-block">
 		{% csrf_token %}
 
@@ -13,7 +13,6 @@
 						 aria-describedby="basic-addon1" autocomplete="off" autocorrect="off" autocapitalize="off"
 						 spellcheck="false">
 		</div>
-		<div class="lds-dual-ring ml-2 hidden" id="animation-telefone"></div>
 
 	</form>
 {% endif %}

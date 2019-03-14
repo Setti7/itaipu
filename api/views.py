@@ -17,19 +17,16 @@ class EditarTelefone(View):
     def post(self, request):
         data = {}
         c = request.user.chacara
-        print(request.POST)
 
         form = EditarTelefoneForm(request.POST, instance=c)
 
         if form.is_valid():
             data['success'] = True
             form.save()
-            print('CHANGED')
 
         else:
             data['success'] = False
-            data['msg'] = form.errors.as_json()
-            print('NOT CHANGED')
+            data['msg'] = 'Houve um erro ao atualizar o seu telefone. Tente novamente.'
 
         return JsonResponse(data)
 
@@ -57,6 +54,11 @@ class EditarMorador(View):
         if not request.user.chacara == r_chac:
             data['success'] = False
             data['msg'] = 'Não autorizado.'
+            raise NotAuthorized(data)
+
+        if request.user.status == 'C' and r.status != 'C':
+            data['success'] = False
+            data['msg'] = 'Caseiros só podem editar ou excluir outros caseiros.'
             raise NotAuthorized(data)
 
         return r
@@ -101,8 +103,6 @@ class EditarMorador(View):
 
         except NotAuthorized as e:
             return JsonResponse(e.data)
-
-        # TODO: check for user to not delete itself (change ui for button to be disabled)
 
         if request.user == r:
             return JsonResponse({'success': False, 'msg': 'Você não pode deletar a si mesmo.'})

@@ -9,6 +9,7 @@ from django.template import loader
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.forms import UserCreationForm
 
 from contas.models import Residente, Visitante, Chacara
 from itaipu.settings import REGISTRATION_EMAIL
@@ -165,7 +166,7 @@ class EditarVisitanteForm(forms.ModelForm):
         return v
 
 
-class NovoVisitante(forms.ModelForm):
+class NovoVisitanteForm(forms.ModelForm):
     # Editáveis
     data = forms.DateField(label='Data', input_formats=['%d/%m/%Y', '%Y-%m-%d'],
                            widget=widgets.DateInput(format='%d/%m/%Y'))
@@ -209,3 +210,46 @@ class EditarResidenteForm(forms.ModelForm):
     class Meta:
         model = Residente
         fields = ['nome', 'status', 'token', 'email', 'form_id']
+
+
+class NovoResidenteForm(UserCreationForm):
+    STATUS_CHOICES = (
+        ('P', 'Proprietário'),
+        ('C', 'Caseiro'),
+    )
+    status = forms.ChoiceField(choices=STATUS_CHOICES)
+
+    class Meta:
+        model = Residente
+        fields = ['nome', 'status', 'email', 'password1', 'password2']
+
+    def __init__(self, chac_id, status, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.chac_id = chac_id
+        self.status = status
+
+        if self._meta.model.USERNAME_FIELD in self.fields:
+            self.fields[self._meta.model.USERNAME_FIELD].widget.attrs.update({'autofocus': True})
+
+    def clean_status(self):
+        self.error_messages['caseiro_not_authorized'] = 'Caseiros só podem criar outros caseiros.'
+
+        status = self.cleaned_data.get("status")
+
+        if self.status == 'C' and status != 'C':
+            raise forms.ValidationError(
+                self.error_messages['caseiro_not_authorized'],
+                code='caseiro_not_authorized',
+            )
+        return status
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        user.chacara = self.chac_id
+        user.is_active = True
+
+        if commit:
+            user.save()
+        return user

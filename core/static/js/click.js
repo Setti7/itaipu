@@ -80,11 +80,20 @@ function disable_edit (id, reload) {
   $(btn_blacklist).addClass('hidden')
 }
 
-function error_alert (error) {
-  var alert = $('#error-alert')
+function response (success, text) {
+  var alert_banner = $('#alert-banner')
 
-  alert.html(error)
-  alert.removeClass('hidden')
+  if (success === true) {
+    alert_banner.html(text)
+    alert_banner.removeClass('hidden')
+    alert_banner.removeClass('alert-danger')
+    alert_banner.addClass('alert-success')
+  } else {
+    alert_banner.html(text)
+    alert_banner.removeClass('hidden')
+    alert_banner.removeClass('alert-success')
+    alert_banner.addClass('alert-danger')
+  }
 }
 
 function capitalize (string) {
@@ -156,17 +165,20 @@ function save_edit (id, form) {
       data: data,
       dataType: 'json',
       success: function (data) {
-        if (!data.success) {
-          error_alert(
-            'Houve um erro inesperado ao editar esse visitante. Tente novamente.')
-        } else {
 
+        if (data.success) {
           // se entrada for alterada com sucesso, atualizar o label "autorizado por" com o nome do usuário
           var auth_label = $(`small[data-id=${id}]`)
           var user = auth_label.attr('data-name')
 
           auth_label.html('Autorizado por:<br>' + user)
+
+          response(true, 'Visitante editado com sucesso!')
+        } else {
+          response(false, data.msg)
+          disable_edit(id)
         }
+
       },
     })
     $(animation).addClass('hidden')
@@ -209,19 +221,19 @@ function remove_entry (id, form, action) {
       xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'))
     },
     success: function (data) {
+
       if (data.success) {
         $(col_id).fadeOut()
-      } else {
 
         if (action === 'delete') {
-          alert(data.msg)
-
+          response(true, 'Visitante excluído com sucesso!')
         } else if (action === 'blacklist') {
-          alert('Houve um erro ao proibir esse visitante.')
+          response(true, 'Visitante proibido com sucesso!')
         }
-
-        $(animation).addClass('hidden')
+      } else {
+        response(false, data.msg)
       }
+
     },
   })
 }
@@ -251,8 +263,8 @@ $('.js-btn').click(function () {
   var form = $('#form-' + id)
 
   form.submit(function (e) {
-  e.preventDefault()
-})
+    e.preventDefault()
+  })
 
   if (action === 'edit') {
     enable_edit(id)

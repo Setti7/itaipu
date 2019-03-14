@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-#TODO: o que fazer com residentes que estão registrados em 2 chácaras? Minha ideia é unir a lista de
-# visitas das duas chácaras na página de autorizar visitas, além de clocar mais um campo para editar
-# os telefones das chacarás.
-
-
 # Settings constants
 r='\033[0;31m'
 g='\033[0;32m'

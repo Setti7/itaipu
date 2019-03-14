@@ -1,0 +1,36 @@
+{% extends 'contas/header.html' %}
+
+
+{% block title %}
+	<title>Parque Itaipu | Criação de residente</title>
+{% endblock %}
+
+{% load static %}
+
+{% block main %}
+	<form class="form-signin" method="post" action="{% url 'core:novo residente' %}">
+		{% csrf_token %}
+		<div class="text-center mb-4">
+			<img class="mb-4" src="{% static 'favicon/android-chrome-192x192.png' %}" alt="" width="72"
+					 height="72">
+			<h1 class="h3 mb-3 font-weight-normal">Adicionar residente à chácara</h1>
+			<p style="color: #dc3545;">{% if form.errors %}Houve um erro ao registrar o residente.<br> Por favor, tente
+				novamente. {{ form.non_field_errors|safe }}{% endif %}
+			</p>
+		</div>
+
+		{% include 'includes/messages.html' %}
+
+		{% include 'includes/novo-residente-form.html' %}
+
+		<div class="checkbox m-3 text-center">
+			<label>
+				<a href="{% url 'core:editar chacara' page=1 %}">Voltar</a>
+			</label>
+
+		</div>
+
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Salvar</button>
+		<input type="hidden" name="next" value="{{ next }}"/>
+	</form>
+{% endblock %}

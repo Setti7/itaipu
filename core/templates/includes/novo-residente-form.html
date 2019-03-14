@@ -1,0 +1,51 @@
+{% for field in form %}
+
+	<div style="text-align: left">
+		{% if field.errors %}
+			{% for error in field.errors %}
+				<span style="color: #dc3545">{{ error|safe }}</span>
+			{% endfor %}
+		{% else %}
+			{% if not field.is_hidden %}
+				<span class="text-muted" style="margin-bottom: 0">{{ field.label }} </span>
+				<span style="color: #dc3545">*</span>
+			{% endif %}
+		{% endif %}
+	</div>
+
+	{% if 'status' not in field.html_name %}
+
+		<label for="{{ field.id_for_label }}" class="sr-only">{{ field.label }}</label>
+		<input name="{{ field.html_name }}"
+					 id="{{ field.id_for_label }}"
+					 placeholder="{{ field.label }}"
+					 required autofocus
+
+						{% if 'email' in field.html_name or 'password2' in field.html_name %}
+					 type="{{ field.field.widget.input_type }}"
+					 class="form-control mb-3"
+
+						{% else %}
+					 type="{{ field.field.widget.input_type }}"
+					 class="form-control mb-2"
+						{% endif %}>
+
+
+		{% for error in field.errors %}
+			<small style="color: #dc3545">{{ error|safe }}</small>
+		{% endfor %}
+
+	{% else %}
+
+		<label for="{{ field.id_for_label }}" class="sr-only">{{ field.label }}</label>
+		<select name="{{ field.html_name }}" id="{{ field.id_for_label }}" class="custom-select mb-2">
+			<option value="P">Proprietário</option>
+			<option value="C">Caseiro</option>
+		</select>
+
+	{% endif %}
+
+	{% if 'email' in field.html_name %}
+		<hr>
+	{% endif %}
+{% endfor %}

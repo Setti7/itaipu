@@ -11,19 +11,21 @@
 {% block apresentacao %}
 
 	{% include 'includes/messages.html' %}
+	<div class="alert text-center hidden" role="alert" id="alert-banner"></div>
 
 	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-		<h1 class="display-4">Configurações da sua chácara</h1>
+		<h1 class="display-5">Configurações da sua chácara</h1>
 		<hr>
 		<p class="lead">
-			lorem ipsum.
+			Edite os moradores e caseiros de sua chácara. Não se esqueça de manter o telefone para contato atualizado!
 		</p>
-
-		{% include 'includes/telefone-form.html' %}
 
 		<a class="btn btn-outline-dark" href="{% url 'core:novo residente' %}">Adicionar Residente</a>
 
 		<hr>
+
+		{% include 'includes/telefone-form.html' %}
+
 	</div>
 
 	<div class="album py-5 bg-light">

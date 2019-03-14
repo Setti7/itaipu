@@ -1,6 +1,5 @@
 var last_value
 var tel_input = $('#editar-telefone')
-var animation = $('#animation-telefone')
 
 tel_input.on('click touchstart mouseover', function () {
 
@@ -9,9 +8,6 @@ tel_input.on('click touchstart mouseover', function () {
   $(this).click(function () {
     $(this).select()
   })
-
-  // rodando animação
-  animation.removeClass('hidden')
 })
 
 tel_input.mouseout(function () {
@@ -38,21 +34,19 @@ tel_input.mouseout(function () {
         dataType: 'json',
         success: function (data) {
 
-          if (!data.success) {
+          if (data.success) {
+            input.removeClass('text-danger')
+            response(true, 'Número alterado com sucesso!')
+          } else {
             input.val(last_value)
             input.addClass('text-danger')
-            alert(data.msg)
-
-          } else if (data.success) {
-            input.removeClass('text-danger')
+            response(false, data.msg)
           }
+
         },
       })
     }
   }
-
-  // parando animação
-  animation.addClass('hidden')
 })
 
 $('#editar-telefone-form').submit(function (e) {

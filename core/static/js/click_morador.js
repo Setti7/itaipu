@@ -72,11 +72,20 @@ function disable_edit (id, reload) {
 
 }
 
-function error_alert (error) {
-  var alert = $('#error-alert')
+function response (success, text) {
+  var alert_banner = $('#alert-banner')
 
-  alert.html(error)
-  alert.removeClass('hidden')
+  if (success === true) {
+    alert_banner.html(text)
+    alert_banner.removeClass('hidden')
+    alert_banner.removeClass('alert-danger')
+    alert_banner.addClass('alert-success')
+  } else {
+    alert_banner.html(text)
+    alert_banner.removeClass('hidden')
+    alert_banner.removeClass('alert-success')
+    alert_banner.addClass('alert-danger')
+  }
 }
 
 function capitalize (string) {
@@ -148,12 +157,15 @@ function save_edit (id, form) {
       data: data,
       dataType: 'json',
       success: function (data) {
-        if (!data.success) {
-          error_alert(
-            'Houve um erro inesperado ao editar esse residente. Tente novamente.')
+        if (data.success) {
+          response(true, 'Residente editado com sucesso!')
+        } else {
+          response(false, data.msg)
+          disable_edit(id)
         }
       },
     })
+
     $(animation).addClass('hidden')
   }
 }
@@ -185,13 +197,15 @@ function remove_entry (id, form) {
       xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'))
     },
     success: function (data) {
+
       if (data.success) {
         $(col_id).fadeOut()
+        response(true, 'Residente excluído com sucesso!')
       } else {
-
-        alert(data.msg)
-        $(animation).addClass('hidden')
+        response(false, data.msg)
       }
+
+      $(animation).addClass('hidden')
     },
   })
 }
