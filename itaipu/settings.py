@@ -10,33 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
-import json
 import os
 
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
-
-
-# Importing envvars from env.json:
-def get_envvar(var, alt=None):
-    with open('setup/env.json', 'r') as f:
-        data = json.loads(f.read())
-        return data.get(var, alt)
-
-
-def gen_SECRET_KEY():
-    import random
-    SECRET_KEY = ''.join(
-        [random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)])
-
-    with open('setup/env.json', 'r') as f:
-        data = json.loads(f.read())
-
-    with open('setup/env.json', 'w') as f:
-        data['SECRET_KEY'] = SECRET_KEY
-
-        f.write(json.dumps(data, indent=4))
-
+from .utils import get_envvar
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -56,7 +32,6 @@ ALLOWED_HOSTS = get_envvar('ALLOWED_HOSTS')
 
 INSTALLED_APPS = [
 
-    'debug_toolbar',
     'tinymce',
 
     'contas.apps.ContasConfig',
@@ -81,7 +56,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'itaipu.middleware.UserBasedExceptionMiddleware',
 
 ]
@@ -209,7 +183,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+# Static files
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
@@ -220,16 +194,8 @@ LOGIN_REDIRECT_URL = '/'
 
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
 
-# Sentry config
-# https://sentry.io/
-
-sentry_sdk.init(
-    dsn="https://2893784632054e68a96704f984638966@sentry.io/1354523",
-    integrations=[DjangoIntegration()]
-)
-
 # Email settings
-# https://app.sendgrid.com/
+#https://docs.djangoproject.com/en/2.1/topics/email/
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
@@ -246,12 +212,42 @@ EMAIL_HOST_PASSWORD = 'gy761qaA'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 
-## Descomente caso esteja com SSL
+if DEBUG:
 
-# SECURE_CONTENT_TYPE_NOSNIFF = True
-# SECURE_BROWSER_XSS_FILTER = True
-# SECURE_SSL_REDIRECT = True
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
-# X_FRAME_OPTIONS = 'DENY'
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    MIDDLEWARE += [
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    ]
+
+    INSTALLED_APPS += [
+        'debug_toolbar',
+    ]
+
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.sqlite3',
+    #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+    #     }
+    # }
+
+else:
+
+    # Sentry config
+    # https://sentry.io/
+
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn="https://2893784632054e68a96704f984638966@sentry.io/1354523",
+        integrations=[DjangoIntegration()]
+    )
+
+    ## Descomente caso esteja com SSL
+
+    # SECURE_CONTENT_TYPE_NOSNIFF = True
+    # SECURE_BROWSER_XSS_FILTER = True
+    # SECURE_SSL_REDIRECT = True
+    # SESSION_COOKIE_SECURE = True
+    # CSRF_COOKIE_SECURE = True
+    # X_FRAME_OPTIONS = 'DENY'
+    # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

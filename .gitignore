@@ -57,3 +57,4 @@ target/
 # Venv
 venv/
 tokens.pdf
+/db.sqlite3

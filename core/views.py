@@ -7,19 +7,27 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
+from django.db.models import Q
 from django.http import FileResponse
 from django.shortcuts import render, redirect, Http404
 from django.utils.decorators import method_decorator
 from django.views import View
 
+from avisos.models import Aviso
 from contas.forms import EditarTelefoneForm, NovoResidenteForm
 from contas.forms import EditarVisitanteForm, NovoVisitanteForm, EditarResidenteForm
-from contas.models import Visitante, Residente, Chacara
+from contas.models import Visitante, Residente
 
 
 @login_required(redirect_field_name=None)
 def home(request):
-    return render(request, 'core/home.html')
+    avisos_restantes = Aviso.objects.filter(~Q(avisoviewer__residente=request.user))
+    num_avisos_restantes = len(avisos_restantes)
+
+    return render(request, 'core/home.html',
+                  {
+                      'num_avisos': num_avisos_restantes
+                  })
 
 
 def error(request, code):

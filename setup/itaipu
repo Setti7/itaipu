@@ -12,7 +12,7 @@ server {
     }
 
     location = /robots.txt {
-        alias /var/www/html/itaipu/robots.txt;
+        alias /var/www/html/itaipu/static/favicon/robots.txt;
     }
 
     location = /browserconfig.xml {

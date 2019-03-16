@@ -91,6 +91,16 @@ footer p {
 	background-color: #fff;
 }
 
+.alerts {
+	position: absolute;
+	top: 56px;
+	width: 100%;
+}
+
+.alerts .alert{
+	padding: 8px;
+	opacity: 0.7;
+}
 
 /* Loading animation */
 .lds-dual-ring {

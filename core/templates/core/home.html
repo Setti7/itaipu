@@ -30,14 +30,26 @@
 				<!-- Primeiro card -->
 				<div class="col-md-4" id="avisos">
 					<div class="card mb-4 shadow-sm card-outline">
-						<div class="card-header">
-							<h4 class="my-0 font-weight-normal">Avisos</h4>
+
+						<div class="card-header" style="display: flex; justify-content: flex-end">
+							<h4 class="my-0 font-weight-normal" style="flex: 1;">Avisos</h4>
+
+							{% if num_avisos > 0 %}
+								<h4 style="margin: 0"><span class="badge badge-warning">{{ num_avisos }}</span></h4>
+							{% endif %}
+
 						</div>
 
 						<div class="card-body">
 							<p>
-								{#								TODO: add badge here that tells how many notices the user still needs to read#}
-								Não há nenhum aviso novo para você.
+								{% if num_avisos == 0 %}
+									Não há nenhum aviso novo para você.
+									{% elif num_avisos == 1 %}
+									Tem 1 novo aviso para você ler!
+									{% else %}
+									Ainda tem {{ num_avisos }} avisos que você deveria ler.
+								{% endif %}
+
 							</p>
 						</div>
 

@@ -80,26 +80,6 @@ function disable_edit (id, reload) {
   $(btn_blacklist).addClass('hidden')
 }
 
-function response (success, text) {
-  var alert_banner = $('#alert-banner')
-
-  if (success === true) {
-    alert_banner.html(text)
-    alert_banner.removeClass('hidden')
-    alert_banner.removeClass('alert-danger')
-    alert_banner.addClass('alert-success')
-  } else {
-    alert_banner.html(text)
-    alert_banner.removeClass('hidden')
-    alert_banner.removeClass('alert-success')
-    alert_banner.addClass('alert-danger')
-  }
-}
-
-function capitalize (string) {
-  return string.charAt(0).toUpperCase() + string.slice(1)
-}
-
 function save_edit (id, form) {
 
   // validando form e ressaltando erros
@@ -236,22 +216,6 @@ function remove_entry (id, form, action) {
 
     },
   })
-}
-
-function getCookie (name) {
-  var cookieValue = null
-  if (document.cookie && document.cookie !== '') {
-    var cookies = document.cookie.split(';')
-    for (var i = 0; i < cookies.length; i++) {
-      var cookie = jQuery.trim(cookies[i])
-      // Does this cookie string begin with the name we want?
-      if (cookie.substring(0, name.length + 1) === (name + '=')) {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1))
-        break
-      }
-    }
-  }
-  return cookieValue
 }
 
 $('.js-btn').click(function () {

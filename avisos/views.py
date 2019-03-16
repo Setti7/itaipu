@@ -5,4 +5,4 @@ class AvisoListView(ListView):
     model = Aviso
     paginate_by = 10  # if pagination is desired
     template_name = 'avisos/avisos.html'
-    queryset = Aviso.objects.all().order_by('-data')
+    queryset = Aviso.objects.order_by('-data')

@@ -20,6 +20,7 @@
 			Ative as notificações do website pelo smartphone para receber notificações quando novos avisos forem publicados.
 		</p>
 
+		{# TODO: adicionar botão de notificações #}
 		<p class="text-danger"> ADICIONAR BOTÃO NOTIFICAÇÃO</p>
 		<hr>
 
@@ -44,7 +45,7 @@
 								<div class="card-body">
 
 
-									<div style="display: flex; justify-content: space-between; align-items: start">
+									<div style="display: flex; justify-content: space-between">
 										<h5 class="card-title">{{ aviso.titulo }}</h5>
 										<span style="align-self: center"
 													class="badge badge-warning mb-3 hidden not-read-badge-js">Novo</span>
@@ -61,7 +62,8 @@
 
 									{% include 'avisos/includes/aviso-modal.html' with aviso=aviso id=aviso.id %}
 
-									<a href="#" class="card-link" data-toggle="modal" data-target="#readMoreModal-{{ aviso.id }}">Ler mais</a>
+									<a href="#" class="card-link" data-toggle="modal" data-target="#readMoreModal-{{ aviso.id }}">Ler
+										mais</a>
 
 									<small class="text-muted" style="float: right">{{ aviso.data }}</small>
 								</div>
@@ -118,9 +120,13 @@
 
 				</ul>
 			</nav>
+
+			<div class="text-center mt-0 mb-3">
+				<a href="#">Voltar ao topo</a>
+			</div>
 		{% endif %}
 
-		<p class="text-muted text-center">&copy; 2018 - Parque Itaipu</p>
+		<p class="text-muted text-center">&copy; {% now "Y" %} - Parque Itaipu</p>
 
 	</footer>
 
@@ -128,5 +134,6 @@
 {% endblock footer %}
 
 {% block scripts %}
+	<script src="{% static "js/utils.js" %}" type="text/javascript"></script>
 	<script src="{% static "js/aviso-highlight.js" %}" type="text/javascript"></script>
 {% endblock %}

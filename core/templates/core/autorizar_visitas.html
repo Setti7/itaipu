@@ -9,8 +9,6 @@
 
 {% block apresentacao %}
 
-	<div class="alert text-center hidden" role="alert" id="alert-banner"></div>
-
 	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 		<h1 class="display-4">Autorizar Visitas</h1>
 		<hr>
@@ -235,7 +233,11 @@
 			</ul>
 		</nav>
 
-		<p class="text-muted text-center">&copy; 2018 - Parque Itaipu</p>
+		<div class="text-center mt-0 mb-3">
+			<a href="#">Voltar ao topo</a>
+		</div>
+
+		<p class="text-muted text-center">&copy; {% now "Y" %} - Parque Itaipu</p>
 
 	</footer>
 
@@ -245,6 +247,7 @@
 
 {% block scripts %}
 	<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+	<script src="{% static "js/utils.js" %}" type="text/javascript"></script>
 	<script src="{% static "js/click.js" %}" type="text/javascript"></script>
 {% endblock %}
 
