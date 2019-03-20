@@ -56,5 +56,8 @@ target/
 
 # Venv
 venv/
+
+# Development
 tokens.pdf
 /db.sqlite3
+/media/

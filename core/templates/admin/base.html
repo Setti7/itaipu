@@ -1,22 +1,29 @@
 {% extends 'admin/base.html' %}
 
 {% load i18n %}
+{% load static %}
+
+{% block extrahead %}
+	{# Adding icon to the admin page #}
+	<link rel="icon" type="image/png" sizes="32x32" href="{% static "favicon/favicon-32x32.png" %}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static "favicon/favicon-16x16.png" %}">
+{% endblock %}
 
 
 {% block userlinks %}
-    <a href="{% url 'core:token_pdf' %}">Ver tokens dos residentes</a> /
+	<a href="{% url 'core:token_pdf' %}">Ver tokens dos residentes</a> /
 
-    {% if site_url %}
-        <a href="{{ site_url }}">{% trans 'View site' %}</a> /
-    {% endif %}
-    {% if user.is_active and user.is_staff %}
-        {% url 'django-admindocs-docroot' as docsroot %}
-        {% if docsroot %}
-            <a href="{{ docsroot }}">{% trans 'Documentation' %}</a> /
-        {% endif %}
-    {% endif %}
-    {% if user.has_usable_password %}
-        <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
-    {% endif %}
-    <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+	{% if site_url %}
+		<a href="{{ site_url }}">{% trans 'View site' %}</a> /
+	{% endif %}
+	{% if user.is_active and user.is_staff %}
+		{% url 'django-admindocs-docroot' as docsroot %}
+		{% if docsroot %}
+			<a href="{{ docsroot }}">{% trans 'Documentation' %}</a> /
+		{% endif %}
+	{% endif %}
+	{% if user.has_usable_password %}
+		<a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+	{% endif %}
+	<a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
 {% endblock %}
