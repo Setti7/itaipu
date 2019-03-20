@@ -4,7 +4,7 @@ from tinymce.widgets import TinyMCE
 
 from .models import Aviso
 from .models import AvisoViewer
-
+from .forms import AvisoForm
 admin.site.register(AvisoViewer)
 
 
@@ -14,6 +14,10 @@ class VisitanteAdmin(admin.ModelAdmin):
     list_display = ('titulo', 'subtitulo', 'autor', 'data')
     search_fields = ('titulo', 'subtitulo', 'autor', 'texto')
 
+    autocomplete_fields = ['autor']
+
     formfield_overrides = {
         models.TextField: {'widget': TinyMCE()},
     }
+
+    form = AvisoForm

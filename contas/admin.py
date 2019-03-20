@@ -16,8 +16,10 @@ from django.utils.html import escape
 from django.utils.translation import gettext, gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
+from django.utils.html import format_html
 
 from .models import Residente, Chacara, Visitante
+from .filters import DropdownFilter
 
 csrf_protect_m = method_decorator(csrf_protect)
 sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
@@ -26,18 +28,22 @@ sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
 @admin.register(Visitante)
 class VisitanteAdmin(admin.ModelAdmin):
     fieldsets = (
-        (None, {'fields': ('nome', 'veiculo', 'chacara')}),
+        (None, {'fields': ('nome', 'veiculo', 'chacara', 'foto')}),
         ('Extra', {'fields': ('nomeres', ('oculto', 'blacklist'))})
     )
-    list_display = ('nome', 'veiculo', 'chacara', 'oculto', 'blacklist')
+    ordering = ['-data', 'nome']
+    list_display = ('nome', 'veiculo', 'chacara_link', 'oculto', 'blacklist')
+    list_filter = (('chacara__id', DropdownFilter), 'oculto', 'blacklist')
+    autocomplete_fields = ['chacara']
 
-    search_fields = ('nome', 'veiculo', 'chacara')
+    def chacara_link(self, obj):
+        url = f'/admin/contas/chacara/{obj.chacara.id}/change/'
+        return format_html("<a href='{}'>{}</a>", url, obj.chacara)
 
+    chacara_link.admin_order_field = 'chacara'
+    chacara_link.short_description = 'chácara'
 
-class VisitanteInline(admin.TabularInline):
-    model = Visitante
-    verbose_name = "Visitante"
-    verbose_name_plural = "Visitantes"
+    search_fields = ('nome', 'veiculo')
 
 
 @admin.register(Chacara)
@@ -47,16 +53,16 @@ class ChacaraAdmin(admin.ModelAdmin):
         ('Informações', {'fields': ('via', 'lote', 'quadra', 'classe', 'operacao')})
     )
 
-    list_display = ('id', 'todos_moradores' ,'alguns_visitantes')
-    inlines = [VisitanteInline]
+    list_display = ('id', 'todos_moradores', 'alguns_visitantes')
     search_fields = ('id', 'via', 'lote', 'quadra', 'classe')
-    readonly_fields = ['id']
+    readonly_fields = ['id', 'via']
 
 
 @admin.register(Residente)
 class ResidenteAdmin(admin.ModelAdmin):
     add_form_template = 'admin/auth/user/add_form.html'
     change_user_password_template = None
+    autocomplete_fields = ['chacara']
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         (_('Personal info'), {'fields': ('nome', 'chacara', 'status', 'token')}),

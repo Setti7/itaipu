@@ -8,7 +8,11 @@ server {
     }
 
     location /static/ {
-        root /var/www/html/itaipu;
+        alias /var/www/html/itaipu/static/;
+    }
+
+    location /media/ {
+        alias /var/www/html/itaipu/media/;
     }
 
     location = /robots.txt {

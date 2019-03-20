@@ -1,4 +1,5 @@
 from uuid import uuid4
+import os
 
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
@@ -8,6 +9,9 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from .managers import ResidenteManager
+from .storage import OverwriteStorage, update_filename
+
+storage = OverwriteStorage()
 
 
 def token_generator():
@@ -16,7 +20,7 @@ def token_generator():
 
 class Chacara(models.Model):
     id = models.AutoField(db_column='chac_ID', primary_key=True)
-    telefone = models.CharField(max_length=15)
+    telefone = models.CharField(max_length=15, null=True, blank=True)
     via = models.CharField(max_length=25)
     lote = models.CharField(max_length=10)
     quadra = models.CharField(max_length=6)
@@ -42,7 +46,7 @@ class Chacara(models.Model):
         return ", ".join(v)
 
     def __str__(self):
-        return "Chácara %s" % self.pk
+        return str(self.pk)
 
     class Meta:
         verbose_name = 'chácara'
@@ -53,7 +57,7 @@ class Chacara(models.Model):
 class Visitante(models.Model):
     id = models.AutoField(db_column='vis_ID', primary_key=True)
     nome = models.CharField(max_length=50, db_column='nomevis')
-    veiculo = models.CharField(max_length=7, null=True, db_column='veic_ID')
+    veiculo = models.CharField(max_length=7, null=True, db_column='veic_ID', blank=True)
     chacara = models.ForeignKey(Chacara, on_delete=models.PROTECT, related_name='visitantes',
                                 verbose_name='chácara', db_column='chac_ID')
     nomeres = models.CharField(max_length=50, default='DESCONHECIDO', db_column='nomeres')
@@ -61,7 +65,7 @@ class Visitante(models.Model):
     blacklist = models.BooleanField(default=False, db_column='Blacklist')
     agendado = models.BooleanField(default=True, db_column='Agendado')
     data = models.DateField(null=True)
-    foto = models.ImageField(null=True)
+    foto = models.ImageField(null=True, blank=True, upload_to=update_filename, storage=storage)
 
     def __str__(self):
         return str(self.nome)
