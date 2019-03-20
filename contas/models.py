@@ -61,6 +61,7 @@ class Visitante(models.Model):
     blacklist = models.BooleanField(default=False, db_column='Blacklist')
     agendado = models.BooleanField(default=True, db_column='Agendado')
     data = models.DateField(null=True)
+    foto = models.ImageField(null=True)
 
     def __str__(self):
         return str(self.nome)

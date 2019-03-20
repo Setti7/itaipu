@@ -136,10 +136,11 @@ class EditarVisitanteForm(forms.ModelForm):
     # Hidden
     form_id = forms.IntegerField(min_value=0, max_value=999999, widget=forms.HiddenInput)
     nomeres = forms.CharField(max_length=50, required=False)
+    foto = forms.ImageField(required=False)
 
     class Meta:
         model = Visitante
-        fields = ['nome', 'data', 'form_id', 'nomeres']
+        fields = ['nome', 'data', 'form_id', 'nomeres', 'foto']
 
     def __init__(self, nomeres, *args, **kwargs):
         self.nomeres = nomeres
@@ -150,6 +151,7 @@ class EditarVisitanteForm(forms.ModelForm):
 
         nome = self.cleaned_data.get('nome')
         data = self.cleaned_data.get('data')
+        foto = self.cleaned_data.get('foto')
         pk = self.cleaned_data.get('form_id')
         nomeres = self.nomeres
 
@@ -157,6 +159,7 @@ class EditarVisitanteForm(forms.ModelForm):
 
         if commit:
             v.nome = nome
+            v.foto = foto
             v.data = data
             v.agendado = True
             v.nomeres = nomeres

@@ -14,8 +14,8 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from avisos.models import Aviso
-from contas.forms import EditarTelefoneForm, NovoResidenteForm
 from contas.forms import EditarVisitanteForm, NovoVisitanteForm, EditarResidenteForm
+from contas.forms import NovoResidenteForm
 from contas.models import Visitante, Residente
 
 
@@ -28,6 +28,14 @@ def home(request):
                   {
                       'num_avisos': num_avisos_restantes
                   })
+
+
+@staff_member_required(redirect_field_name=None)
+def token_pdf(request):
+    try:
+        return FileResponse(open(os.path.join(settings.BASE_DIR, 'tokens.pdf'), 'rb'), content_type='application/pdf')
+    except FileNotFoundError:
+        raise Http404()
 
 
 def error(request, code):
@@ -102,7 +110,8 @@ def autorizar_visitas_blacklist(request, page):
             'nome': v.nome,
             'data': v.data,
             'form_id': v.pk,
-            'nomeres': v.nomeres
+            'nomeres': v.nomeres,
+            'foto': v.foto
         })
         formset.append(form)
 
@@ -153,7 +162,8 @@ def autorizar_visitas(request, page):
             'nome': v.nome,
             'data': v.data,
             'form_id': v.pk,
-            'nomeres': v.nomeres
+            'nomeres': v.nomeres,
+            'foto': v.foto
         })
         formset.append(form)
 
@@ -168,16 +178,9 @@ def autorizar_visitas(request, page):
                    })
 
 
-@staff_member_required(redirect_field_name=None)
-def token_pdf(request):
-    try:
-        return FileResponse(open(os.path.join(settings.BASE_DIR, 'tokens.pdf'), 'rb'), content_type='application/pdf')
-    except FileNotFoundError:
-        raise Http404()
-
-
 @method_decorator(login_required, name='dispatch')
 class EditarChacaraView(View):
+    # TODO: transformar isso em um GenericListView
 
     def get(self, request, page):
         formset = []
@@ -220,14 +223,6 @@ class EditarChacaraView(View):
 
             formset.append(form)
 
-        # Telefone form
-        try:
-            form = EditarTelefoneForm(initial={'telefone': request.user.chacara.telefone})
-
-        # handling error if residente is not bounded to a chacara
-        except AttributeError:
-            form = EditarTelefoneForm()
-
         return render(request, 'core/editar_chacara.html',
                       {'formset': formset,
                        'page': page,
@@ -236,7 +231,6 @@ class EditarChacaraView(View):
                        'list_of_pages': list_of_pages,
                        'last_page': last_page,
                        'empty': empty,
-                       'form': form,
                        })
 
 

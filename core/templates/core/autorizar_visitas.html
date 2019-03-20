@@ -51,9 +51,25 @@
 											 id="card-{{ form.form_id.value }}">
 
 										<!-- Form Start -->
+										{% if not form.foto.value %}
+											<div style="float: right;">
+												<img class="profile-picture mb-2"
+														 src="{% static 'img/profile_placeholder.png' %}"
+														 alt="Sem foto do visitante"/>
+											</div>
+										{% else %}
+
+											<div style="float: right;">
+												<img class="profile-picture mb-2"
+														 src="{{ form.foto.value }}"
+														 alt="Foto do visitante"/>
+											</div>
+										{% endif %}
+
+
 										<div id="field-group-{{ form.form_id.value }}">
 											{% for field in form %}
-												{% if 'nomeres' not in field.html_name %}
+												{% if 'nomeres' not in field.html_name and 'foto' not in field.html_name %}
 													<!-- Field start -->
 
 													{% if not field.is_hidden %}
