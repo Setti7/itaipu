@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 
 from .utils import get_envvar
+from .logging_filters import skip_media_requests, skip_static_requests
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -117,6 +118,48 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Logging that filters media and static calls
+# https://stackoverflow.com/questions/23833642/django-how-to-filter-out-get-static-and-media-messages-with-logging
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        # use Django's built in CallbackFilter to point to your filter
+        'skip_static_requests': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': skip_static_requests
+        },
+        'skip_media_requests': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': skip_media_requests
+        }
+    },
+    'formatters': {
+        # django's default formatter
+        'django.server': {
+            '()': 'django.utils.log.ServerFormatter',
+            'format': '[%(server_time)s] %(message)s',
+        }
+    },
+    'handlers': {
+        # django's default handler
+        'django.server': {
+            'level': 'INFO',
+            'filters': ['skip_static_requests', 'skip_media_requests'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'django.server',
+        },
+    },
+    'loggers': {
+        # django's default logger
+        'django.server': {
+            'handlers': ['django.server'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    }
+}
 
 # Django Toolbar config
 # https://github.com/jazzband/django-debug-toolbar
@@ -183,7 +226,7 @@ LOGIN_REDIRECT_URL = '/'
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
 
 # Email settings
-#https://docs.djangoproject.com/en/2.1/topics/email/
+# https://docs.djangoproject.com/en/2.1/topics/email/
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
