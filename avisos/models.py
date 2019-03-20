@@ -9,7 +9,7 @@ class Aviso(models.Model):
     texto = models.TextField()
     autor = models.ForeignKey(Residente, on_delete=models.PROTECT, related_name='avisos')
     titulo = models.CharField(max_length=100, verbose_name='título')
-    subtitulo = models.CharField(max_length=200, verbose_name='sub-título', null=True, blank=True)
+    subtitulo = models.CharField(max_length=200, verbose_name='subtítulo', null=True, blank=True)
 
     viewers = models.ManyToManyField(Residente, through='AvisoViewer')
 

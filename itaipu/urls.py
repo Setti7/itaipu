@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
 
 admin.site.site_header = 'Administração Itaipu'
 admin.site.site_title = 'Portal Administrativo Itaipu'
@@ -29,7 +30,8 @@ urlpatterns = [
     path('', include('core.urls', namespace='core')),
     path('tinymce/', include('tinymce.urls')),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 if settings.DEBUG:
     import debug_toolbar
