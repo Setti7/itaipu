@@ -11,8 +11,8 @@
     <form class="form-signin" method="post" action="{% url 'core:novo visitante' %}">
         {% csrf_token %}
         <div class="text-center mb-4">
-            <img class="mb-4" src="{% static 'favicon/android-chrome-192x192.png' %}" alt="" width="72"
-                 height="72">
+            <img class="mb-4" src="{% static 'android-chrome-192x192.png' %}" alt="" width="72"
+								 height="72">
             <h1 class="h3 mb-3 font-weight-normal">Adicionar visitante à chácara</h1>
             <p style="color: #dc3545;">{% if form.errors %}Houve um erro ao registrar o visitante.<br> Por favor, tente
                 novamente. {{ form.non_field_errors|safe }}{% endif %}

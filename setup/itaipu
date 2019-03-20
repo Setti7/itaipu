@@ -15,22 +15,6 @@ server {
         alias /var/www/html/itaipu/media/;
     }
 
-    location = /robots.txt {
-        alias /var/www/html/itaipu/static/favicon/robots.txt;
-    }
-
-    location = /browserconfig.xml {
-        alias /var/www/html/itaipu/static/favicon/browserconfig.xml;
-    }
-
-    location = /android-chrome-192x192.png {
-        alias /var/www/html/itaipu/static/favicon/android-chrome-192x192.png;
-    }
-
-    location = /android-chrome-512x512.png {
-        alias /var/www/html/itaipu/static/favicon/android-chrome-512x512.png;
-    }
-
     location / {
         include proxy_params;
         proxy_pass http://unix:/run/gunicorn.sock;

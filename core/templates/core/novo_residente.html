@@ -11,7 +11,7 @@
 	<form class="form-signin" method="post" action="{% url 'core:novo residente' %}">
 		{% csrf_token %}
 		<div class="text-center mb-4">
-			<img class="mb-4" src="{% static 'favicon/android-chrome-192x192.png' %}" alt="" width="72"
+			<img class="mb-4" src="{% static 'android-chrome-192x192.png' %}" alt="" width="72"
 					 height="72">
 			<h1 class="h3 mb-3 font-weight-normal">Adicionar residente à chácara</h1>
 			<p style="color: #dc3545;">{% if form.errors %}Houve um erro ao registrar o residente.<br> Por favor, tente
