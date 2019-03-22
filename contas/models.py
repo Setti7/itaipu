@@ -52,6 +52,7 @@ class Chacara(models.Model):
         verbose_name = 'chácara'
         verbose_name_plural = 'chácaras'
         db_table = 'Chacara'
+        ordering = ['id']
 
 
 class Visitante(models.Model):

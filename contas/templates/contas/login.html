@@ -18,8 +18,7 @@
         <h1 class="h3 mb-3 font-weight-normal">Bem-Vindo.</h1>
 
         <a tabindex="0" style="cursor:pointer;" data-toggle="popover" data-trigger="focus"
-           data-content='Para associar um email a sua conta já registrada no sistema, vá até a portaria para receber seu
-		    código de ativação. Com o código em mãos clique no link "Associar email" abaixo.'>Como
+           data-content='Vá à portaria e pegue o seu código de ativação. Com o código em mãos, clique no link "Criar conta" abaixo.'>Como
             criar minha conta de residente?
         </a>
 
@@ -58,7 +57,7 @@
         {% endif %}
 
         <div style="margin-top: 1.5rem">
-            <a style="float: right;" href="{% url 'contas:associar conta' %}">Associar email</a>
+            <a style="float: right;" href="{% url 'contas:associar conta' %}">Criar conta</a>
             <a style="float: left;" href="{% url 'contas:password_reset' %}">Esqueceu a senha?</a>
         </div>
 

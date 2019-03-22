@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-    <title>Itaipu | Ativar Conta</title>
+    <title>Itaipu | Criar Conta</title>
 {% endblock %}
 
 
@@ -15,8 +15,8 @@
 
         <img class="mb-4" src="{% static 'favicon/../../../core/static/android-chrome-192x192.png' %}" alt="" width="72"
 						 height="72">
-        <h1 class="h3 mb-3 font-weight-normal">Associar email a conta</h1>
-        <p>Insira o código retirado na portaria para associar um email a sua conta e terminar seu registro.</p>
+        <h1 class="h3 mb-3 font-weight-normal">Criar conta</h1>
+        <p>Complete os campos abaixo para criar sua conta.</p>
 
         {% if form.errors %}
             <p style="color: #dc3545;">
@@ -62,12 +62,12 @@
         {% endfor %}
 
         <div style="margin-top: 1.5rem">
-            <a class="text-center" href="{% url 'contas:login' %}">Já tem uma conta?</a>
+            <a class="text-center" href="{% url 'contas:login' %}">Já tem uma conta? Faça login aqui.</a>
         </div>
 
         <hr style="clear: both">
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit" value="submit">Associar email</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" value="submit">Criar conta</button>
         <input type="hidden" name="next" value="{{ next }}"/>
         <p class="mt-5 mb-3 text-muted">&copy; {% now "Y" %} - Parque Itaipu</p>
 
