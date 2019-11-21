@@ -1,15 +1,17 @@
 # itaipu  
   
 Itaipu is a web app for managing a condominium, where residents can allow visitors, read notices and more!  
-  
+
+---
+
 Following a very strict set of requirements, a django web app was developed for managing the client's condominium, carefully developed to respect the in-place infrastructure and to integrate with an existing MySQL database.    
     
 Many solutions were created to overcome the challenges given by the great amount of requirements:    
     
-1. A token system was designed for registering users and updating their record in the old database,    
-2. Integration with an old system which needed to use the same database    
+1. A token system was designed for registering users and updating their record in the old database.    
+2. Integration with an old system which needed to use the same database.    
 3. Developing a system resistant to local power/internet outages. Needed to be run locally, with little resources.    
-4. Creating a hierarchy between users belonging to same property (owner, visitors, caretakers and residents)  
+4. Creating a hierarchy between users belonging to same property (owner, visitors, caretakers and residents).  
 
 ## Images:
 
@@ -30,6 +32,3 @@ Many solutions were created to overcome the challenges given by the great amount
 ### Account creation email:
 
 ![Create account - email](/docs/images/create_account_email.png)
-
-Todo:
-[rever status do git]
