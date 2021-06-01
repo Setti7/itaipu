@@ -23,6 +23,6 @@ sentry-sdk==0.6.2
 six==1.12.0
 sqlparse==0.2.4
 tinycss2==0.6.1
-urllib3==1.24.2
+urllib3==1.26.5
 WeasyPrint==44
 webencodings==0.5.1
